@@ -41,6 +41,7 @@ const HeroExperience = () => {
                     maxDistance={60}
                     minDistance={5}
                     onStart={() => setIsInteracting(true)}
+                    onEnd={() => setIsInteracting(false)}
                 />
                 <RotatingGroup isMobile={isMobile} isInteracting={isInteracting}>
                     <Room/>

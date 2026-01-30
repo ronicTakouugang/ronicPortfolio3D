@@ -350,7 +350,7 @@ section {
 
 /* Hero text slider starts */
 .slide {
-    display: inline-block;
+    display: inline-flex;
     flex-direction: column;
     transition: all cubic-bezier(0.71, 0.03, 0.34, 1);
 }
@@ -363,7 +363,7 @@ section {
 
 @keyframes wordSlider {
     0% {
-        transform: translateY(0.5%);
+        transform: translateY(0%);
     }
     12.5% {
         transform: translateY(-12.5%);
@@ -385,6 +385,9 @@ section {
     }
     87.5% {
         transform: translateY(-87.5%);
+    }
+    100% {
+        transform: translateY(-100%);
     }
 }
 
@@ -489,8 +492,7 @@ section {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    filter: blur(10px);
-    filter: saturate(200);
+    filter: blur(10px) saturate(200);
 }
 
 .card:hover::before {
