@@ -266,6 +266,32 @@ const socialImgs = [
     },
 ];
 
+const projectTechStack = [
+    { name: "Next.js" },
+    { name: "FastAPI" },
+    { name: "Prophet" },
+    { name: "FinBERT" },
+    { name: "Gemini AI" },
+];
+
+const meteoTechStack = [
+    { name: "Terraform" },
+    { name: "Python" },
+    { name: "GCP" },
+    { name: "BigQuery" },
+    { name: "dbt" },
+    { name: "Looker Studio" },
+];
+
+const hrTechStack = [
+    { name: "GCP" },
+    { name: "DataBricks" },
+    { name: "ETL" },
+    { name: "Medaillon" },
+    { name: "Tableau" },
+    { name: "Python" },
+];
+
 export {
     words,
     abilities,
@@ -278,4 +304,7 @@ export {
     techStackIcons,
     techStackImgs,
     navLinks,
+    projectTechStack,
+    meteoTechStack,
+    hrTechStack,
 };
