@@ -1,10 +1,16 @@
 import React from 'react'
 import {logoIconsList} from "../constants/index.js";
 
+const getAltText = (imgPath) => {
+    if (!imgPath) return "Logo";
+    const fileName = imgPath.split('/').pop();
+    return fileName.split('.')[0].replace(/-/g, ' ');
+};
+
 const LogoIcon = ({ icon }) => {
     return(
         <div className="flex-none flex-center marquee-item">
-            <img src={icon.imgPath} alt={icon.name}/>
+            <img src={icon.imgPath} alt={getAltText(icon.imgPath)}/>
         </div>
     )
 }
