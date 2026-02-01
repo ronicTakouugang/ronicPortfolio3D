@@ -155,7 +155,7 @@ section {
     }
 
     .app-showcase {
-        @apply w-full mt-20 px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
+        @apply w-full mt-10 px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
 
         .showcaselayout {
             @apply flex xl:flex-row flex-col gap-10 justify-between;
@@ -165,7 +165,7 @@ section {
             @apply h-full flex flex-col justify-between xl:w-[60%];
 
             .image-wrapper {
-                @apply xl:h-[70vh] md:h-[50vh] h-96 relative;
+                @apply xl:h-[35vh] md:h-[30vh] h-60 relative;
 
                 img {
                     @apply w-full h-full object-cover rounded-xl absolute inset-0;
@@ -173,23 +173,23 @@ section {
             }
 
             .text-content {
-                @apply space-y-5 mt-5;
+                @apply space-y-4 mt-4;
 
                 .badges {
-                    @apply flex gap-2 mb-4;
+                    @apply flex gap-2 mb-3;
                 }
 
                 h2 {
-                    @apply text-2xl md:text-3xl lg:text-4xl font-bold;
+                    @apply text-lg md:text-xl lg:text-2xl font-bold;
                 }
             }
         }
 
         .project-list-wrapper {
-            @apply flex md:flex-row flex-col xl:flex-col gap-10 xl:w-[40%];
+            @apply flex md:flex-row flex-col xl:flex-col gap-8 xl:w-[40%] xl:-mt-20;
 
             .image-wrapper {
-                @apply xl:h-[37vh] md:h-52 lg:h-72 h-64 relative rounded-xl xl:px-5 2xl:px-12 py-0;
+                @apply xl:h-[18vh] md:h-32 lg:h-40 h-36 relative rounded-xl xl:px-5 2xl:px-12 py-0;
             }
 
             img {
@@ -197,7 +197,7 @@ section {
             }
 
             h2 {
-                @apply text-lg md:text-xl lg:text-2xl font-semibold mt-5;
+                @apply text-sm md:text-base lg:text-lg font-semibold mt-3;
             }
         }
     }
