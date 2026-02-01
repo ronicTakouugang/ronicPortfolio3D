@@ -4,7 +4,7 @@ import {OrbitControls} from "@react-three/drei";
 import {useMediaQuery} from "react-responsive";
 import {Room} from "./Office_room.jsx";
 
-const RotatingGroup = ({ isMobile, isInteracting, children }) => {
+const RotatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
 
     useFrame((state, delta) => {
@@ -13,11 +13,14 @@ const RotatingGroup = ({ isMobile, isInteracting, children }) => {
         }
     })
 
+    const scale = isMobile ? 0.03 : isTablet ? 0.035 : 0.045;
+    const position = isMobile ? [0, -12, 0] : isTablet ? [0, -12, 0] : [1, -12, 0];
+
     return (
         <group
             ref={groupRef}
-            scale={isMobile ? 0.03 : 0.045}
-            position={[1, -12, 0]}
+            scale={scale}
+            position={position}
             rotation={[0, -Math.PI / 4, 0]}
         >
             {children}
@@ -69,7 +72,7 @@ const HeroExperience = () => {
                     onStart={handleInteractionStart}
                     onEnd={handleInteractionEnd}
                 />
-                <RotatingGroup isMobile={isMobile} isInteracting={isInteracting}>
+                <RotatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
                     <Room/>
                 </RotatingGroup>
             </Suspense>
