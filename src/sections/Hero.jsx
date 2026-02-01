@@ -93,7 +93,7 @@ const Hero = () => {
                     <Button
                         containerClass="md:w-56 md:h-11 w-44 h-9 mt-2"
                         text="See my Work!"
-                        id = "Button"
+                        id = "counter"
                     />
                 </div>
             </div>
