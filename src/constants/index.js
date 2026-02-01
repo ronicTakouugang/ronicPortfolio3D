@@ -22,17 +22,13 @@ const words = [
     { text: "Pipelines", imgPath: "/images/code.svg" },
     { text: "Insights", imgPath: "/images/ideas.svg" },
     { text: "Models", imgPath: "/images/concepts.svg" },
-    { text: "Data", imgPath: "/images/designs.svg" },
-    { text: "Pipelines", imgPath: "/images/code.svg" },
-    { text: "Insights", imgPath: "/images/ideas.svg" },
-    { text: "Models", imgPath: "/images/concepts.svg" },
 ];
 
 const counterItems = [
-    { value: 15, suffix: "+", label: "Years of Experience" },
-    { value: 200, suffix: "+", label: "Satisfied Clients" },
-    { value: 108, suffix: "+", label: "Completed Projects" },
-    { value: 90, suffix: "%", label: "Client Retention Rate" },
+    { value: 12, suffix: "+", label: "Data Tools Mastered" },
+    { value: 10, suffix: "+", label: "Data Analysis Projects" },
+    { value: 500, suffix: "+", label: "Hours of Data Cleaning" },
+    { value: 100, suffix: "%", label: "Passion for Data" },
 ];
 
 const logoIconsList = [

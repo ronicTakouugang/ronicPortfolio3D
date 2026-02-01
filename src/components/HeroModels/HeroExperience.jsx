@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState } from 'react'
+import React, { Suspense, useRef, useState, useEffect } from 'react'
 import {Canvas, useFrame} from "@react-three/fiber";
 import {OrbitControls} from "@react-three/drei";
 import {useMediaQuery} from "react-responsive";
@@ -16,8 +16,8 @@ const RotatingGroup = ({ isMobile, isInteracting, children }) => {
     return (
         <group
             ref={groupRef}
-            scale={isMobile ? 0.035 : 0.055}
-            position={[-2, -10, 0]}
+            scale={isMobile ? 0.03 : 0.045}
+            position={[1, -12, 0]}
             rotation={[0, -Math.PI / 4, 0]}
         >
             {children}
@@ -29,19 +29,45 @@ const HeroExperience = () => {
     const isTablet = useMediaQuery({query: '(max-width: 1024px)'})
     const isMobile = useMediaQuery({query: '(max-width: 768px)'})
     const [isInteracting, setIsInteracting] = useState(false)
+    const timeoutRef = useRef(null)
+
+    const handleInteractionStart = () => {
+        setIsInteracting(true)
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current)
+            timeoutRef.current = null
+        }
+    }
+
+    const handleInteractionEnd = () => {
+        // Clear any existing timeout just in case
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        
+        // Start a 10 seconds timer before resuming rotation
+        timeoutRef.current = setTimeout(() => {
+            setIsInteracting(false)
+        }, 10000)
+    }
+
+    // Cleanup timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        };
+    }, []);
 
     return (
         <Canvas camera={{position : [0, 0, 60], fov:40}}>
             <Suspense fallback={null}>
                 <ambientLight intensity={0.7} />
-                <directionalLight position={[10, 10, 10]} intensity={1.5}/>
+                <directionalLight position={[10, 10, 12 ]} intensity={1.5}/>
                 <OrbitControls
                     enablePan={false}
                     enableZoom={true}
                     maxDistance={60}
                     minDistance={5}
-                    onStart={() => setIsInteracting(true)}
-                    onEnd={() => setIsInteracting(false)}
+                    onStart={handleInteractionStart}
+                    onEnd={handleInteractionEnd}
                 />
                 <RotatingGroup isMobile={isMobile} isInteracting={isInteracting}>
                     <Room/>
