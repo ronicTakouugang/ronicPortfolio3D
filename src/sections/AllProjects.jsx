@@ -114,6 +114,10 @@ const AllProjects = () => {
         ospin.style.width = `${imgWidth}px`;
         ospin.style.height = `${imgHeight}px`;
 
+        /**
+         * Position carousel items in a circular layout around the Z-axis and set their transition timing.
+         * @param {string|number} [delayTime] - Optional transition-delay to apply to each element; if omitted, a per-item delay of `(aEle.length - i) / 4s` is used.
+         */
         function init(delayTime) {
             for (let i = 0; i < aEle.length; i++) {
                 aEle[i].style.transform = `rotateY(${i * (360 / aEle.length)}deg) translateZ(${radius}px)`;
@@ -124,12 +128,24 @@ const AllProjects = () => {
 
         setTimeout(() => init(100), 0);
 
+        /**
+         * Apply the current rotation values to a DOM element, constraining the vertical angle.
+         *
+         * Clamps `tY` to the range 0–180 and sets the element's CSS `transform` to
+         * `rotateX(-tYdeg) rotateY(tXdeg)`, where `tX` and `tY` are external rotation state.
+         *
+         * @param {HTMLElement} obj - The element whose transform will be updated.
+         */
         function applyTransform(obj) {
             if (tY > 180) tY = 180;
             if (tY < 0) tY = 0;
             obj.style.transform = `rotateX(${-tY}deg) rotateY(${tX}deg)`;
         }
 
+        /**
+         * Toggle the carousel spin animation on the `ospin` element.
+         * @param {boolean} yes - `true` to resume the spin animation, `false` to pause it.
+         */
         function playSpin(yes) {
             ospin.style.animationPlayState = yes ? 'running' : 'paused';
         }
