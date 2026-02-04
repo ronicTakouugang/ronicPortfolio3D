@@ -219,7 +219,6 @@ const AllProjects = () => {
                                 src={project.image}
                                 alt={project.title}
                                 onClick={() => handleProjectClick(project)}
-                                style={{ '--bg-image': `url(${project.image})` }}
                             />
                         ))}
                     </div>
