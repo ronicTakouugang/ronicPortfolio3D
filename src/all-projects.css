@@ -29,7 +29,7 @@
 
 #drag-container img {
     transform-style: preserve-3d;
-    position: relative; /* Changed from absolute to relative */
+    position: absolute;
     left: 0;
     top: 0;
     width: 100%;
@@ -41,21 +41,6 @@
     -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0005);
     cursor: pointer;
 }
-
-#drag-container img::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 100%;
-    width: 100%;
-    height: 100%;
-    background-image: var(--bg-image);
-    background-size: cover;
-    transform: scaleY(-1);
-    mask-image: linear-gradient(transparent 50%, #0005 100%);
-    pointer-events: none;
-}
-
 
 #drag-container img:hover {
     box-shadow: 0 0 15px #fffd;
@@ -114,7 +99,6 @@
 }
 
 .project-details-title {
-    font-family: 'Orbitron', sans-serif;
     font-size: 3rem;
     margin: 0 0 10px 0;
     color: #fff;
