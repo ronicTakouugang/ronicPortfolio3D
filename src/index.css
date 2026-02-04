@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -152,6 +153,38 @@ section {
                 }
             }
         }
+
+        .hamburger-icon {
+            @apply w-6 h-5 flex flex-col justify-between;
+        }
+
+        .hamburger-icon .line {
+            @apply w-full h-0.5 bg-white transition-all duration-300 ease-in-out;
+        }
+
+        .hamburger-icon .line-1-open {
+            @apply transform rotate-45 translate-y-2;
+        }
+
+        .hamburger-icon .line-2-open {
+            @apply opacity-0;
+        }
+
+        .hamburger-icon .line-3-open {
+            @apply transform -rotate-45 -translate-y-2.5;
+        }
+
+        .mobile-menu {
+            @apply fixed top-0 left-0 w-screen h-screen bg-black/90 backdrop-blur-sm flex justify-center items-center z-40;
+        }
+
+        .mobile-menu nav ul {
+            @apply flex flex-col gap-8 text-center;
+        }
+
+        .mobile-menu nav ul li a {
+            @apply text-3xl font-bold text-white;
+        }
     }
 
     .app-showcase {
@@ -261,11 +294,11 @@ section {
     }
 
     .marquee-item {
-        @apply md:w-40 w-32;
-    }
 
-    .timeline-wrapper {
-        @apply absolute top-0 xl:left-[35.5vw] md:left-10 left-5 h-full flex justify-center;
+        @apply md:w-40 w-32;
+
+    }    .timeline-wrapper {
+        @apply absolute top-0 xl:left-[34vw] md:left-6 left-3 h-full flex justify-center;
     }
 
     .timeline {
@@ -273,7 +306,7 @@ section {
     }
 
     .timeline-logo {
-        @apply md:size-20 size-10 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-black-50 bg-black-100;
+        @apply md:size-16 size-8 flex-none rounded-full flex justify-center items-center md:-translate-y-7 border border-black-50 bg-black-100;
     }
 
     .exp-card-wrapper {
@@ -345,6 +378,22 @@ section {
                 @apply inline-block;
             }
         }
+    }
+
+    .footer-container {
+        @apply w-full py-10 flex flex-col items-center justify-center bg-black-100 mt-20;
+    }
+
+    .social-links {
+        @apply flex gap-6 mb-5;
+    }
+
+    .social-links a {
+        @apply text-white-50 hover:text-white transition-colors duration-300 text-lg;
+    }
+
+    .copyright {
+        @apply text-white-50 text-sm;
     }
 }
 

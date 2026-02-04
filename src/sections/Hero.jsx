@@ -53,8 +53,8 @@ const Hero = () => {
                 <img src="/images/bg.png" alt="background" className="w-full h-full object-cover opacity-50"/>
             </div>
 
-            <div className="w-full mx-auto flex flex-col sm:mt-72 mt-56 px-5 md:pl-10 md:pr-20 gap-4 relative z-10 pointer-events-none">
-                <div ref={containerRef} className="hero-text text-white flex flex-col gap-y-2 pointer-events-auto w-fit">
+            <div ref={containerRef} className="w-full mx-auto flex flex-col sm:mt-72 mt-56 px-5 md:pl-10 md:pr-20 gap-4 relative z-10 pointer-events-none">
+                <div className="hero-text text-white flex flex-col gap-y-2 pointer-events-auto w-fit">
                     <h1 className="md:text-4xl text-xl font-bold flex flex-wrap items-baseline gap-x-3 leading-tight">
                         Building
                         <span className="inline-flex overflow-hidden h-[1.1em]">

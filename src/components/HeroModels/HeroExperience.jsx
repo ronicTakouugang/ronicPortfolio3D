@@ -4,12 +4,13 @@ import {OrbitControls} from "@react-three/drei";
 import {useMediaQuery} from "react-responsive";
 import {Room} from "./Office_room.jsx";
 
-const RotatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
+const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
 
     useFrame((state, delta) => {
-        if (!isInteracting && groupRef.current) {
-            groupRef.current.rotation.y += delta * 0.2 // Rotation lente
+        if (groupRef.current) {
+            // Floating effect
+            groupRef.current.position.y = -12 + Math.sin(state.clock.elapsedTime) * 0.5;
         }
     })
 
@@ -72,9 +73,9 @@ const HeroExperience = () => {
                     onStart={handleInteractionStart}
                     onEnd={handleInteractionEnd}
                 />
-                <RotatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
+                <FloatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
                     <Room/>
-                </RotatingGroup>
+                </FloatingGroup>
             </Suspense>
         </Canvas>
     )
