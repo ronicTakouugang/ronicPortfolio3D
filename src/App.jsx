@@ -1,21 +1,26 @@
-import React from 'react'
-import Hero from "./sections/Hero.jsx";
-import AnimatedCounter from "./components/AnimatedCounter.jsx";
-import ShowcaseSection from "./sections/ShowcaseSection.jsx";
+import React, { Suspense } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import NavBar from "./components/NavBar.jsx";
-import LogoSection from "./sections/LogoSection.jsx";
-import FeatureCards from "./sections/FeatureCards.jsx";
+import HomePage from "./sections/HomePage.jsx";
+import AllProjects from "./sections/AllProjects.jsx";
+import LoadingScreen from "./components/LoadingScreen.jsx";
+import Footer from "./components/Footer.jsx";
 
 const App = () => {
     return (
-        <main className="max-w-7xl mx-auto">
-            <NavBar/>
-            <Hero/>
-            <AnimatedCounter/>
-            <ShowcaseSection/>
-            <LogoSection/>
-            <FeatureCards/>
-        </main>
+        <>
+            <Suspense fallback={null}>
+                <main className="max-w-7xl mx-auto">
+                    <NavBar/>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/all-projects" element={<AllProjects />} />
+                    </Routes>
+                    <Footer />
+                </main>
+            </Suspense>
+            <LoadingScreen />
+        </>
     )
 }
 export default App
