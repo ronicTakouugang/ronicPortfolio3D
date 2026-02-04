@@ -1,5 +1,11 @@
 import { useGLTF } from "@react-three/drei";
 
+/**
+ * Render a 3D computer model loaded from a GLTF file.
+ *
+ * @param {Object} props - Props forwarded to the root group element (e.g., position, rotation, scale).
+ * @returns {JSX.Element} A group containing the computer model meshes with shadows enabled.
+ */
 export function Computer(props) {
     const { nodes, materials } = useGLTF(
         "/models/computer-optimized-transformed.glb"
