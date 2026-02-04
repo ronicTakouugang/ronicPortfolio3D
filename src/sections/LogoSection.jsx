@@ -26,8 +26,8 @@ const LogoSection = () => {
                     {logoIconsList.map((icon)=>(
                         <LogoIcon key={icon.imgPath} icon={icon}/>
                     ))}
-                    {logoIconsList.map((icon)=>(
-                        <LogoIcon key={icon.imgPath} icon={icon}/>
+                    {logoIconsList.map((icon, index)=>(
+                        <LogoIcon key={`duplicate-${icon.imgPath}-${index}`} icon={icon}/>
                     ))}
                 </div>
             </div>

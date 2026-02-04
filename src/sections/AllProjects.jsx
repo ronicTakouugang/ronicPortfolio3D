@@ -118,7 +118,7 @@ const AllProjects = () => {
             for (let i = 0; i < aEle.length; i++) {
                 aEle[i].style.transform = `rotateY(${i * (360 / aEle.length)}deg) translateZ(${radius}px)`;
                 aEle[i].style.transition = 'transform 1s';
-                aEle[i].style.transitionDelay = delayTime || `${(aEle.length - i) / 4}s`;
+                aEle[i].style.transitionDelay = delayTime ? `${delayTime}ms` : `${(aEle.length - i) / 4}s`;
             }
         }
 
@@ -219,6 +219,7 @@ const AllProjects = () => {
                                 src={project.image}
                                 alt={project.title}
                                 onClick={() => handleProjectClick(project)}
+                                style={{ '--bg-image': `url(${project.image})` }}
                             />
                         ))}
                     </div>

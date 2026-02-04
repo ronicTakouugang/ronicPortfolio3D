@@ -7,16 +7,27 @@ const TechIconCardExperience = ({ model }) => {
     const scene = useGLTF(model.modelPath);
 
     useEffect(() => {
-        if (model.name === "Interactive Developer") {
+        let newMaterial;
+        if (model.name === "Data Architecture") {
             scene.scene.traverse((child) => {
                 if (child.isMesh) {
                     if (child.name === "Object_5") {
-                        child.material = new THREE.MeshStandardMaterial({ color: "white" });
+                        if (child.material) {
+                            child.material.dispose();
+                        }
+                        newMaterial = new THREE.MeshStandardMaterial({ color: "white" });
+                        child.material = newMaterial;
                     }
                 }
             });
         }
-    }, [scene]);
+
+        return () => {
+            if (newMaterial) {
+                newMaterial.dispose();
+            }
+        };
+    }, [scene, model.name]);
 
     return (
         <Canvas>

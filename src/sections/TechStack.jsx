@@ -1,10 +1,13 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import TitleHeader from "../components/TitleHeader";
-import TechIconCardExperience from "../components/models/TechLogos/TechIcon.jsx";
+import TechIconCardExperience from "../components/Models/TechLogos/TechIcon.jsx";
 import { techStackIcons } from "../constants";
 // import { techStackImgs } from "../constants";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const TechStack = () => {
     // Animate the tech cards in the skills section

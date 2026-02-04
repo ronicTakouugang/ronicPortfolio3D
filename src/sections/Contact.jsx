@@ -3,7 +3,7 @@ import emailjs from "@emailjs/browser";
 import Button from "../components/Button.jsx";
 
 import TitleHeader from "../components/TitleHeader";
-import ContactExperience from "../components/models/contact/ContactExperience";
+import ContactExperience from "../components/Models/contact/ContactExperience";
 
 const Contact = () => {
     const formRef = useRef(null);
@@ -35,7 +35,8 @@ const Contact = () => {
             setForm({ name: "", email: "", message: "" });
             alert("Message Sent!");
         } catch (error) {
-            console.error("EmailJS Error:", error); // Optional: show toast
+            console.error("EmailJS Error:", error);
+            alert("Message failed to send. Please try again.");
         } finally {
             setLoading(false); // Always stop loading, even on error
         }
