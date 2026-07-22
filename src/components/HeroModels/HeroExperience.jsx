@@ -7,7 +7,7 @@ import DashboardScreen from "./DashboardScreen.jsx";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
-    const baseY = isMobile ? -4 : isTablet ? -4.5 : -5;
+    const baseY = isMobile ? -7 : isTablet ? -7.5 : -8;
 
     useFrame((state) => {
         if (groupRef.current && !isInteracting) {
@@ -16,7 +16,7 @@ const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
         }
     })
 
-    const scale = isMobile ? 0.8 : isTablet ? 0.9 : 1;
+    const scale = isMobile ? 1.05 : isTablet ? 1.15 : 1.3;
     const position = isMobile ? [0, baseY, 0] : isTablet ? [0, baseY, 0] : [1, baseY, 0];
 
     return (
@@ -24,7 +24,7 @@ const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
             ref={groupRef}
             scale={scale}
             position={position}
-            rotation={[0, -Math.PI / 6, 0]}
+            rotation={[0, -Math.PI / 12, 0]}
         >
             {children}
         </group>
@@ -34,8 +34,8 @@ const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
 const DataAnalyst = () => {
     return (
         <group>
-            <BusinessMan scale={9.5} />
-            <DashboardScreen position={[3.2, 8.6, 1.2]} rotation={[0, -Math.PI / 6, 0]} scale={3.5} />
+            <BusinessMan scale={9.5} rotation={[0, Math.PI / 5, 0]} />
+            <DashboardScreen position={[3.4, 7.2, 2.6]} rotation={[0, Math.PI / 9, 0]} scale={3.2} />
         </group>
     )
 }
@@ -73,11 +73,13 @@ const HeroExperience = () => {
 
     return (
         <Canvas camera={{position : [0, 0, 60], fov:40}}>
-            <ambientLight intensity={0.7} />
-            <directionalLight position={[10, 10, 12 ]} intensity={1.5}/>
+            <ambientLight intensity={1.1} />
+            <directionalLight position={[10, 10, 12 ]} intensity={1.8}/>
+            <pointLight position={[8, 4, 25]} intensity={180} color="#ffffff" />
+            <pointLight position={[-10, 8, 15]} intensity={90} color="#8ab4ff" />
             <OrbitControls
                 enablePan={false}
-                enableZoom={true}
+                enableZoom={false}
                 maxDistance={60}
                 minDistance={5}
                 onStart={handleInteractionStart}

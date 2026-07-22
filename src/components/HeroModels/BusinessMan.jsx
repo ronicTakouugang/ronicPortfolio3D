@@ -1,7 +1,14 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import { useGraph } from '@react-three/fiber'
+import { useGraph, useFrame } from '@react-three/fiber'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { SkeletonUtils } from 'three-stdlib'
+import * as THREE from 'three'
+
+const THINK_POSE = {
+  UpperArmR: new THREE.Euler(0, 0.15, 0.85),
+  LowerArmR: new THREE.Euler(1.85, 0, 0),
+  WristR: new THREE.Euler(0, 0, -0.3),
+}
 
 export function BusinessMan(props) {
   const group = useRef()
@@ -21,6 +28,14 @@ export function BusinessMan(props) {
     action?.reset().fadeIn(0.3).play()
     return () => action?.fadeOut(0.3)
   }, [actions])
+
+  // Override the right-arm bones after the idle clip updates them, to hold a "thinking" (hand-on-chin) pose
+  useFrame(() => {
+    for (const boneName in THINK_POSE) {
+      const bone = nodes[boneName]
+      if (bone) bone.rotation.copy(THINK_POSE[boneName])
+    }
+  })
 
   useEffect(() => {
     const head = nodes.Head
