@@ -13,6 +13,7 @@ const THINK_POSE = {
 export function BusinessMan(props) {
   const group = useRef()
   const hairRef = useRef()
+  const beardRef = useRef()
   const { scene, animations } = useGLTF('/models/business_man.glb')
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
@@ -40,9 +41,14 @@ export function BusinessMan(props) {
   useEffect(() => {
     const head = nodes.Head
     const hair = hairRef.current
-    if (head && hair) {
+    const beard = beardRef.current
+    if (head && hair && beard) {
       head.add(hair)
-      return () => head.remove(hair)
+      head.add(beard)
+      return () => {
+        head.remove(hair)
+        head.remove(beard)
+      }
     }
   }, [nodes])
 
@@ -69,6 +75,11 @@ export function BusinessMan(props) {
           {/* Procedural taper-fade haircut, replacing the model's default straight-hair mesh (Suit_Head_2): a low, flattened dome hugging the scalp instead of a full round volume, attached to the Head bone so it follows animations */}
           <mesh ref={hairRef} position={[0, 0.00205, -0.0003]} scale={[1.05, 0.68, 1.05]}>
             <icosahedronGeometry args={[0.00165, 1]} />
+            <meshStandardMaterial color="#0a0704" roughness={0.95} flatShading />
+          </mesh>
+          {/* Procedural short beard covering the jaw/chin, attached to the Head bone below the mouth line */}
+          <mesh ref={beardRef} position={[0, 0.00025, 0.00115]} scale={[1.1, 0.6, 0.75]}>
+            <icosahedronGeometry args={[0.00078, 1]} />
             <meshStandardMaterial color="#0a0704" roughness={0.95} flatShading />
           </mesh>
         </group>
