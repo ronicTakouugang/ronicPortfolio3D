@@ -27,7 +27,7 @@ function drawDashboard(ctx, width, height, t, bars) {
   const chartBottom = height * 0.62
   const chartLeft = width * 0.08
   const chartRight = width * 0.5
-  const barGap = 14
+  const barGap = 7
   const barWidth = (chartRight - chartLeft - barGap * (BAR_COUNT - 1)) / BAR_COUNT
 
   for (let i = 0; i < BAR_COUNT; i++) {
@@ -42,7 +42,7 @@ function drawDashboard(ctx, width, height, t, bars) {
   }
 
   ctx.strokeStyle = '#34d399'
-  ctx.lineWidth = 3
+  ctx.lineWidth = 1.5
   ctx.beginPath()
   const lineLeft = width * 0.55
   const lineRight = width * 0.94
@@ -56,13 +56,13 @@ function drawDashboard(ctx, width, height, t, bars) {
   ctx.stroke()
 
   ctx.fillStyle = '#e2e8f0'
-  ctx.font = 'bold 34px sans-serif'
+  ctx.font = 'bold 17px sans-serif'
   ctx.fillText('DATA INSIGHTS', width * 0.06, height * 0.12)
 
-  ctx.font = '20px monospace'
+  ctx.font = '10px monospace'
   ctx.fillStyle = '#94a3b8'
-  ctx.fillText('Revenue', chartLeft, chartBottom + 30)
-  ctx.fillText('Trend', lineLeft, chartBottom + 30)
+  ctx.fillText('Revenue', chartLeft, chartBottom + 15)
+  ctx.fillText('Trend', lineLeft, chartBottom + 15)
 
   const kpis = [
     { label: 'Accuracy', value: 97 },
@@ -73,25 +73,28 @@ function drawDashboard(ctx, width, height, t, bars) {
   kpis.forEach((kpi, i) => {
     const x = width * (0.08 + i * 0.3)
     ctx.fillStyle = '#e2e8f0'
-    ctx.font = 'bold 28px monospace'
-    ctx.fillText(`${kpi.value}%`, x, kpiTop + 30)
+    ctx.font = 'bold 14px monospace'
+    ctx.fillText(`${kpi.value}%`, x, kpiTop + 15)
     ctx.fillStyle = '#64748b'
-    ctx.font = '16px sans-serif'
-    ctx.fillText(kpi.label, x, kpiTop + 55)
+    ctx.font = '8px sans-serif'
+    ctx.fillText(kpi.label, x, kpiTop + 28)
   })
 }
+
+const REDRAW_INTERVAL = 1 / 12 // redraw the canvas texture at ~12fps instead of every frame
 
 const DashboardScreen = (props) => {
   const meshRef = useRef()
   const barsRef = useRef(null)
   const nextUpdateRef = useRef(0)
+  const nextRedrawRef = useRef(0)
   const sceneRef = useRef(null)
 
   useEffect(() => {
     barsRef.current = Array.from({ length: BAR_COUNT }, () => Math.random() * 0.6 + 0.2)
     const canvas = document.createElement('canvas')
-    canvas.width = 1024
-    canvas.height = 576
+    canvas.width = 512
+    canvas.height = 288
     const ctx = canvas.getContext('2d')
     const texture = new THREE.CanvasTexture(canvas)
     texture.colorSpace = THREE.SRGBColorSpace
@@ -101,7 +104,6 @@ const DashboardScreen = (props) => {
 
   useFrame((state) => {
     if (!sceneRef.current) return
-    const { canvas, ctx, texture } = sceneRef.current
     const t = state.clock.elapsedTime
     if (t > nextUpdateRef.current) {
       nextUpdateRef.current = t + 1.4
@@ -110,6 +112,9 @@ const DashboardScreen = (props) => {
         return Math.min(0.9, Math.max(0.15, next))
       })
     }
+    if (t < nextRedrawRef.current) return
+    nextRedrawRef.current = t + REDRAW_INTERVAL
+    const { canvas, ctx, texture } = sceneRef.current
     drawDashboard(ctx, canvas.width, canvas.height, t, barsRef.current)
     texture.needsUpdate = true
   })

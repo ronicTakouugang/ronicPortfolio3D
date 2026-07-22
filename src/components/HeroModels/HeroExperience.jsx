@@ -7,7 +7,7 @@ import DashboardScreen from "./DashboardScreen.jsx";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
-    const baseY = isMobile ? -7 : isTablet ? -7.5 : -8;
+    const baseY = isMobile ? -8.5 : isTablet ? -9 : -10;
 
     useFrame((state) => {
         if (groupRef.current && !isInteracting) {
@@ -35,7 +35,7 @@ const DataAnalyst = () => {
     return (
         <group>
             <BusinessMan scale={9.5} rotation={[0, Math.PI / 5, 0]} />
-            <DashboardScreen position={[3.4, 7.2, 2.6]} rotation={[0, Math.PI / 9, 0]} scale={3.2} />
+            <DashboardScreen position={[4.6, 11.5, 2.2]} rotation={[0, Math.PI / 12, 0]} scale={2.6} />
         </group>
     )
 }
@@ -44,7 +44,22 @@ const HeroExperience = () => {
     const isTablet = useMediaQuery({query: '(max-width: 1024px)'})
     const isMobile = useMediaQuery({query: '(max-width: 768px)'})
     const [isInteracting, setIsInteracting] = useState(false)
+    const [isVisible, setIsVisible] = useState(true)
+    const wrapperRef = useRef(null)
     const timeoutRef = useRef(null)
+
+    // Stop the render loop entirely once the hero scrolls out of view, so the
+    // animated character/dashboard don't keep costing frame time on the rest of the page.
+    useEffect(() => {
+        const el = wrapperRef.current
+        if (!el) return
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0 }
+        )
+        observer.observe(el)
+        return () => observer.disconnect()
+    }, [])
 
     const handleInteractionStart = () => {
         setIsInteracting(true)
@@ -72,25 +87,27 @@ const HeroExperience = () => {
     }, []);
 
     return (
-        <Canvas camera={{position : [0, 0, 60], fov:40}}>
-            <ambientLight intensity={1.1} />
-            <directionalLight position={[10, 10, 12 ]} intensity={1.8}/>
-            <pointLight position={[8, 4, 25]} intensity={180} color="#ffffff" />
-            <pointLight position={[-10, 8, 15]} intensity={90} color="#8ab4ff" />
-            <OrbitControls
-                enablePan={false}
-                enableZoom={false}
-                maxDistance={60}
-                minDistance={5}
-                onStart={handleInteractionStart}
-                onEnd={handleInteractionEnd}
-            />
-            <Suspense fallback={null}>
-                <FloatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
-                    <DataAnalyst/>
-                </FloatingGroup>
-            </Suspense>
-        </Canvas>
+        <div ref={wrapperRef} className="w-full h-full">
+            <Canvas camera={{position : [0, 0, 60], fov:40}} frameloop={isVisible ? 'always' : 'never'}>
+                <ambientLight intensity={1.1} />
+                <directionalLight position={[10, 10, 12 ]} intensity={1.8}/>
+                <pointLight position={[8, 4, 25]} intensity={180} color="#ffffff" />
+                <pointLight position={[-10, 8, 15]} intensity={90} color="#8ab4ff" />
+                <OrbitControls
+                    enablePan={false}
+                    enableZoom={false}
+                    maxDistance={60}
+                    minDistance={5}
+                    onStart={handleInteractionStart}
+                    onEnd={handleInteractionEnd}
+                />
+                <Suspense fallback={null}>
+                    <FloatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
+                        <DataAnalyst/>
+                    </FloatingGroup>
+                </Suspense>
+            </Canvas>
+        </div>
     )
 }
 export default HeroExperience
