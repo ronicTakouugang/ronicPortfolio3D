@@ -7,7 +7,7 @@ import DashboardScreen from "./DashboardScreen.jsx";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
-    const baseY = isMobile ? -8.5 : isTablet ? -9 : -10;
+    const baseY = isMobile ? -10.5 : isTablet ? -11 : -12;
 
     useFrame((state) => {
         if (groupRef.current && !isInteracting) {
@@ -16,7 +16,7 @@ const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
         }
     })
 
-    const scale = isMobile ? 1.05 : isTablet ? 1.15 : 1.3;
+    const scale = isMobile ? 1.3 : isTablet ? 1.45 : 1.6;
     const position = isMobile ? [0, baseY, 0] : isTablet ? [0, baseY, 0] : [1, baseY, 0];
 
     return (
@@ -89,10 +89,11 @@ const HeroExperience = () => {
     return (
         <div ref={wrapperRef} className="w-full h-full">
             <Canvas camera={{position : [0, 0, 60], fov:40}} frameloop={isVisible ? 'always' : 'never'}>
-                <ambientLight intensity={1.1} />
-                <directionalLight position={[10, 10, 12 ]} intensity={1.8}/>
-                <pointLight position={[8, 4, 25]} intensity={180} color="#ffffff" />
-                <pointLight position={[-10, 8, 15]} intensity={90} color="#8ab4ff" />
+                <ambientLight intensity={1.5} />
+                <directionalLight position={[10, 10, 12 ]} intensity={2.4}/>
+                <pointLight position={[8, 4, 25]} intensity={260} color="#ffffff" />
+                <pointLight position={[-10, 8, 15]} intensity={150} color="#8ab4ff" />
+                <pointLight position={[5, 15, 10]} intensity={120} color="#ffffff" />
                 <OrbitControls
                     enablePan={false}
                     enableZoom={false}

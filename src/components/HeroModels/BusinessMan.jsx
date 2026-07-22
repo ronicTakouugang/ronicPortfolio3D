@@ -5,7 +5,8 @@ import { SkeletonUtils } from 'three-stdlib'
 import * as THREE from 'three'
 
 const THINK_POSE = {
-  UpperArmR: new THREE.Euler(0, 0, 1.2),
+  UpperArmR: new THREE.Euler(0.1, 0, 0.55),
+  LowerArmR: new THREE.Euler(1.7, 0, 0),
 }
 
 export function BusinessMan(props) {
