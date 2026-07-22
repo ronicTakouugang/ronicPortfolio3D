@@ -129,10 +129,6 @@ const DashboardScreen = (props) => {
         <planeGeometry args={[1.9, 1.07]} />
         <meshBasicMaterial toneMapped={false} />
       </mesh>
-      <mesh position={[0, -0.75, -0.05]}>
-        <boxGeometry args={[0.12, 0.5, 0.12]} />
-        <meshStandardMaterial color="#1f2937" roughness={0.7} />
-      </mesh>
     </group>
   )
 }
