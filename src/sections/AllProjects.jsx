@@ -180,20 +180,19 @@ const AllProjects = () => {
             return false;
         };
 
-        const onMouseWheel = function (e) {
+        const onWheel = function (e) {
             if (selectedProjectRef.current) return;
-            e = e || window.event;
-            const d = e.wheelDelta / 20 || -e.detail;
+            const d = -e.deltaY / 20;
             radius += d;
             init(1);
         };
 
         document.addEventListener('pointerdown', onPointerDown);
-        document.addEventListener('mousewheel', onMouseWheel);
+        document.addEventListener('wheel', onWheel);
 
         return () => {
             document.removeEventListener('pointerdown', onPointerDown);
-            document.removeEventListener('mousewheel', onMouseWheel);
+            document.removeEventListener('wheel', onWheel);
             if (odrag && odrag.timer) {
                 clearInterval(odrag.timer);
             }

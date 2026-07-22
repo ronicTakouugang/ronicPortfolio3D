@@ -7,8 +7,8 @@ import {Room} from "./Office_room.jsx";
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
 
-    useFrame((state, delta) => {
-        if (groupRef.current) {
+    useFrame((state) => {
+        if (groupRef.current && !isInteracting) {
             // Floating effect
             groupRef.current.position.y = -12 + Math.sin(state.clock.elapsedTime) * 0.5;
         }
