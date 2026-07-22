@@ -2,29 +2,40 @@ import React, { Suspense, useRef, useState, useEffect } from 'react'
 import {Canvas, useFrame} from "@react-three/fiber";
 import {OrbitControls} from "@react-three/drei";
 import {useMediaQuery} from "react-responsive";
-import {Room} from "./Office_room.jsx";
+import {BusinessMan} from "./BusinessMan.jsx";
+import DashboardScreen from "./DashboardScreen.jsx";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
+    const baseY = isMobile ? -4 : isTablet ? -4.5 : -5;
 
     useFrame((state) => {
         if (groupRef.current && !isInteracting) {
             // Floating effect
-            groupRef.current.position.y = -12 + Math.sin(state.clock.elapsedTime) * 0.5;
+            groupRef.current.position.y = baseY + Math.sin(state.clock.elapsedTime) * 0.4;
         }
     })
 
-    const scale = isMobile ? 0.03 : isTablet ? 0.035 : 0.045;
-    const position = isMobile ? [0, -12, 0] : isTablet ? [0, -12, 0] : [1, -12, 0];
+    const scale = isMobile ? 0.8 : isTablet ? 0.9 : 1;
+    const position = isMobile ? [0, baseY, 0] : isTablet ? [0, baseY, 0] : [1, baseY, 0];
 
     return (
         <group
             ref={groupRef}
             scale={scale}
             position={position}
-            rotation={[0, -Math.PI / 4, 0]}
+            rotation={[0, -Math.PI / 6, 0]}
         >
             {children}
+        </group>
+    )
+}
+
+const DataAnalyst = () => {
+    return (
+        <group>
+            <BusinessMan scale={9.5} />
+            <DashboardScreen position={[3.2, 8.6, 1.2]} rotation={[0, -Math.PI / 6, 0]} scale={3.5} />
         </group>
     )
 }
@@ -62,19 +73,19 @@ const HeroExperience = () => {
 
     return (
         <Canvas camera={{position : [0, 0, 60], fov:40}}>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[10, 10, 12 ]} intensity={1.5}/>
+            <OrbitControls
+                enablePan={false}
+                enableZoom={true}
+                maxDistance={60}
+                minDistance={5}
+                onStart={handleInteractionStart}
+                onEnd={handleInteractionEnd}
+            />
             <Suspense fallback={null}>
-                <ambientLight intensity={0.7} />
-                <directionalLight position={[10, 10, 12 ]} intensity={1.5}/>
-                <OrbitControls
-                    enablePan={false}
-                    enableZoom={true}
-                    maxDistance={60}
-                    minDistance={5}
-                    onStart={handleInteractionStart}
-                    onEnd={handleInteractionEnd}
-                />
                 <FloatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
-                    <Room/>
+                    <DataAnalyst/>
                 </FloatingGroup>
             </Suspense>
         </Canvas>
