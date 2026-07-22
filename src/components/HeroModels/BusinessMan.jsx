@@ -7,11 +7,13 @@ import * as THREE from 'three'
 const THINK_POSE = {
   UpperArmR: new THREE.Euler(0.1, 0, 0.55),
   LowerArmR: new THREE.Euler(1.7, 0, 0),
+  WristR: new THREE.Euler(0, 1.57, 0),
 }
 
 export function BusinessMan(props) {
   const group = useRef()
   const afroRef = useRef()
+  const mouthRef = useRef()
   const { scene, animations } = useGLTF('/models/business_man.glb')
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
@@ -39,9 +41,14 @@ export function BusinessMan(props) {
   useEffect(() => {
     const head = nodes.Head
     const afro = afroRef.current
-    if (head && afro) {
+    const mouth = mouthRef.current
+    if (head && afro && mouth) {
       head.add(afro)
-      return () => head.remove(afro)
+      head.add(mouth)
+      return () => {
+        head.remove(afro)
+        head.remove(mouth)
+      }
     }
   }, [nodes])
 
@@ -69,6 +76,11 @@ export function BusinessMan(props) {
           <mesh ref={afroRef} position={[0, 0.0019, -0.0001]}>
             <icosahedronGeometry args={[0.00185, 1]} />
             <meshStandardMaterial color="#0a0704" roughness={0.95} flatShading />
+          </mesh>
+          {/* Procedural mouth, the base model has none - attached to the Head bone below the eyes */}
+          <mesh ref={mouthRef} position={[0, 0.0003, 0.00162]}>
+            <boxGeometry args={[0.00075, 0.00014, 0.00002]} />
+            <meshStandardMaterial color="#2a1610" roughness={0.9} />
           </mesh>
         </group>
       </group>
