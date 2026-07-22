@@ -13,7 +13,7 @@ const THINK_POSE = {
 export function BusinessMan(props) {
   const group = useRef()
   const hairRef = useRef()
-  const beardRef = useRef()
+  const mustacheRef = useRef()
   const { scene, animations } = useGLTF('/models/business_man.glb')
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
@@ -41,13 +41,13 @@ export function BusinessMan(props) {
   useEffect(() => {
     const head = nodes.Head
     const hair = hairRef.current
-    const beard = beardRef.current
-    if (head && hair && beard) {
+    const mustache = mustacheRef.current
+    if (head && hair && mustache) {
       head.add(hair)
-      head.add(beard)
+      head.add(mustache)
       return () => {
         head.remove(hair)
-        head.remove(beard)
+        head.remove(mustache)
       }
     }
   }, [nodes])
@@ -77,9 +77,9 @@ export function BusinessMan(props) {
             <icosahedronGeometry args={[0.00165, 1]} />
             <meshStandardMaterial color="#0a0704" roughness={0.95} flatShading />
           </mesh>
-          {/* Procedural short beard covering the jaw/chin, attached to the Head bone below the mouth line */}
-          <mesh ref={beardRef} position={[0, 0.00025, 0.00115]} scale={[1.1, 0.6, 0.75]}>
-            <icosahedronGeometry args={[0.00078, 1]} />
+          {/* Procedural mustache above the upper lip, attached to the Head bone */}
+          <mesh ref={mustacheRef} position={[0, 0.00042, 0.00158]}>
+            <boxGeometry args={[0.00075, 0.00013, 0.00006]} />
             <meshStandardMaterial color="#0a0704" roughness={0.95} flatShading />
           </mesh>
         </group>
