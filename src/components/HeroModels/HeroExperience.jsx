@@ -7,7 +7,7 @@ import DashboardScreen from "./DashboardScreen.jsx";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
-    const baseY = isMobile ? -10.5 : isTablet ? -11 : -12;
+    const baseY = isMobile ? -11.5 : isTablet ? -12 : -13;
 
     useFrame((state) => {
         if (groupRef.current && !isInteracting) {

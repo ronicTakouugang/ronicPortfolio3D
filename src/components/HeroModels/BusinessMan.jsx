@@ -12,8 +12,7 @@ const THINK_POSE = {
 
 export function BusinessMan(props) {
   const group = useRef()
-  const afroRef = useRef()
-  const mouthRef = useRef()
+  const hairRef = useRef()
   const { scene, animations } = useGLTF('/models/business_man.glb')
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
@@ -40,15 +39,10 @@ export function BusinessMan(props) {
 
   useEffect(() => {
     const head = nodes.Head
-    const afro = afroRef.current
-    const mouth = mouthRef.current
-    if (head && afro && mouth) {
-      head.add(afro)
-      head.add(mouth)
-      return () => {
-        head.remove(afro)
-        head.remove(mouth)
-      }
+    const hair = hairRef.current
+    if (head && hair) {
+      head.add(hair)
+      return () => head.remove(hair)
     }
   }, [nodes])
 
@@ -72,15 +66,10 @@ export function BusinessMan(props) {
             <skinnedMesh name="Suit_Head_3" geometry={nodes.Suit_Head_3.geometry} material={materials.Eyebrows} skeleton={nodes.Suit_Head_3.skeleton} />
             <skinnedMesh name="Suit_Head_4" geometry={nodes.Suit_Head_4.geometry} material={materials.Eye} skeleton={nodes.Suit_Head_4.skeleton} />
           </group>
-          {/* Procedural low-poly afro, replacing the model's default straight-hair mesh (Suit_Head_2), attached directly to the Head bone so it follows animations */}
-          <mesh ref={afroRef} position={[0, 0.0019, -0.0001]}>
-            <icosahedronGeometry args={[0.00185, 1]} />
+          {/* Procedural taper-fade haircut, replacing the model's default straight-hair mesh (Suit_Head_2): a low, flattened dome hugging the scalp instead of a full round volume, attached to the Head bone so it follows animations */}
+          <mesh ref={hairRef} position={[0, 0.0016, -0.00015]} scale={[1, 0.62, 1]}>
+            <icosahedronGeometry args={[0.00135, 1]} />
             <meshStandardMaterial color="#0a0704" roughness={0.95} flatShading />
-          </mesh>
-          {/* Procedural mouth, the base model has none - attached to the Head bone below the eyes */}
-          <mesh ref={mouthRef} position={[0, 0.0003, 0.00162]}>
-            <boxGeometry args={[0.00075, 0.00014, 0.00002]} />
-            <meshStandardMaterial color="#2a1610" roughness={0.9} />
           </mesh>
         </group>
       </group>
