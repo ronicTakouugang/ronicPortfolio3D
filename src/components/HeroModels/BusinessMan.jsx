@@ -13,6 +13,7 @@ const THINK_POSE = {
 export function BusinessMan(props) {
   const group = useRef()
   const hairRef = useRef()
+  const lookOffset = useRef({ yaw: 0, pitch: 0 })
   const { scene, animations } = useGLTF('/models/business_man.glb')
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
   const { nodes, materials } = useGraph(clone)
@@ -30,10 +31,23 @@ export function BusinessMan(props) {
   }, [actions])
 
   // Override the right-arm bones after the idle clip updates them, to hold a "thinking" (hand-on-chin) pose
-  useFrame(() => {
+  useFrame((state) => {
     for (const boneName in THINK_POSE) {
       const bone = nodes[boneName]
       if (bone) bone.rotation.copy(THINK_POSE[boneName])
+    }
+
+    // Subtly turn the head toward the cursor, blended on top of the idle animation's own head rotation
+    const head = nodes.Head
+    if (head) {
+      const targetYaw = THREE.MathUtils.clamp(state.pointer.x * 0.28, -0.28, 0.28)
+      const targetPitch = THREE.MathUtils.clamp(-state.pointer.y * 0.16, -0.16, 0.16)
+      lookOffset.current.yaw = THREE.MathUtils.lerp(lookOffset.current.yaw, targetYaw, 0.06)
+      lookOffset.current.pitch = THREE.MathUtils.lerp(lookOffset.current.pitch, targetPitch, 0.06)
+      const lookQuat = new THREE.Quaternion().setFromEuler(
+        new THREE.Euler(lookOffset.current.pitch, lookOffset.current.yaw, 0)
+      )
+      head.quaternion.multiply(lookQuat)
     }
   })
 
