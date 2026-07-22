@@ -20,13 +20,6 @@ const words = [
     { text: "Models", imgPath: "/images/concepts.svg" },
 ];
 
-const counterItems = [
-    { value: 12, suffix: "+", label: "Data Tools Mastered" },
-    { value: 10, suffix: "+", label: "Data Analysis Projects" },
-    { value: 500, suffix: "+", label: "Hours of Data Cleaning" },
-    { value: 100, suffix: "%", label: "Passion for Data" },
-];
-
 const logoIconsList = [
     {
         imgPath: "/images/logos/snowflake.png",
@@ -235,7 +228,6 @@ export {
     words,
     abilities,
     logoIconsList,
-    counterItems,
     expCards,
     expLogos,
     socialImgs,
