@@ -6,7 +6,7 @@ import * as THREE from 'three'
 // The desk model's own geometry isn't centered at the scene origin (its true
 // bounding-box center, computed from the glTF accessor bounds, sits here) —
 // point the camera/controls at this instead of [0,0,0] or they aim at empty space.
-const MODEL_CENTER = [-0.112, -0.447, -1.81]
+const MODEL_CENTER = [-0.389, -0.576, -1.67]
 
 const setSrgb = (tex) => {
     tex.colorSpace = THREE.SRGBColorSpace
@@ -49,8 +49,6 @@ const Computer = ({ imagePath }) => {
                 <mesh geometry={nodes.GeometryNode_99_1.geometry} material={materials.speakerPBR} />
                 <mesh geometry={nodes.GeometryNode_112_0.geometry} material={materials['speakerPBR.001']} />
                 <mesh geometry={nodes.GeometryNode_112_1.geometry} material={materials['speakerPBR.001']} />
-                <mesh geometry={nodes.GeometryNode_125_0.geometry} material={materials.systemUnitPBR} />
-                <mesh geometry={nodes.GeometryNode_125_1.geometry} material={materials.systemUnitPBR} />
                 {/* Screen overlay: sized to the "screen" material mesh's own local bounds so the project image sits flush on the monitor */}
                 <mesh position={[-0.0238, 0.994, 22.1398]} rotation={[Math.PI / 2, 0, 0]} renderOrder={1}>
                     <planeGeometry args={[49.917, 26.912]} />
@@ -65,7 +63,7 @@ const Computer = ({ imagePath }) => {
 const ProjectComputer = ({ imagePath }) => {
     return (
         <Canvas
-            camera={{ position: [-0.03, 0.12, 2.19], fov: 20 }}
+            camera={{ position: [-0.39, -0.04, 2.16], fov: 20 }}
             gl={{ toneMappingExposure: 1.5 }}
             frameloop="demand"
         >
@@ -75,10 +73,6 @@ const ProjectComputer = ({ imagePath }) => {
             <pointLight position={[-3, 2, 4]} intensity={45} color="#8ab4ff" />
             <pointLight position={[2, -1, 3]} intensity={35} color="#ffffff" />
             <pointLight position={[0, 1.2, 2.2]} intensity={35} color="#ffffff" />
-            {/* The system-unit tower sits further back/right (near world [0.7,-0.3,-2.1]) than the
-                monitor cluster, so the generic lights above leave it comparatively dark — light it directly. */}
-            <pointLight position={[0.85, 0.5, -1.1]} intensity={24} color="#ffffff" />
-            <pointLight position={[1.1, -0.3, -1.7]} intensity={18} color="#8ab4ff" />
             <OrbitControls
                 makeDefault
                 target={MODEL_CENTER}
