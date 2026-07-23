@@ -69,12 +69,16 @@ const ProjectComputer = ({ imagePath }) => {
             gl={{ toneMappingExposure: 1.5 }}
             frameloop="demand"
         >
-            <ambientLight intensity={3.2} />
+            <ambientLight intensity={3.6} />
             <directionalLight position={[3, 4, 5]} intensity={5} />
             <directionalLight position={[-3, 3, 2]} intensity={3} />
             <pointLight position={[-3, 2, 4]} intensity={45} color="#8ab4ff" />
             <pointLight position={[2, -1, 3]} intensity={35} color="#ffffff" />
             <pointLight position={[0, 1.2, 2.2]} intensity={35} color="#ffffff" />
+            {/* The system-unit tower sits further back/right (near world [0.7,-0.3,-2.1]) than the
+                monitor cluster, so the generic lights above leave it comparatively dark — light it directly. */}
+            <pointLight position={[0.85, 0.5, -1.1]} intensity={24} color="#ffffff" />
+            <pointLight position={[1.1, -0.3, -1.7]} intensity={18} color="#8ab4ff" />
             <OrbitControls
                 makeDefault
                 target={MODEL_CENTER}
