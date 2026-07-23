@@ -65,7 +65,7 @@ const Computer = ({ imagePath }) => {
 const ProjectComputer = ({ imagePath }) => {
     return (
         <Canvas
-            camera={{ position: [-0.05, 0.02, 0.44], fov: 32 }}
+            camera={{ position: [-0.03, 0.12, 2.19], fov: 20 }}
             gl={{ toneMappingExposure: 1.5 }}
             frameloop="demand"
         >
@@ -84,8 +84,8 @@ const ProjectComputer = ({ imagePath }) => {
                 target={MODEL_CENTER}
                 enablePan={false}
                 enableZoom={false}
-                maxPolarAngle={Math.PI / 2.1}
-                minPolarAngle={Math.PI / 3.2}
+                maxPolarAngle={1.536}
+                minPolarAngle={1.309}
                 maxAzimuthAngle={Math.PI / 6}
                 minAzimuthAngle={-Math.PI / 6}
             />
