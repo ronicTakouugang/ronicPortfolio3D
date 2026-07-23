@@ -206,22 +206,22 @@ const projectTechStack = [
     { name: "Gemini AI" },
 ];
 
-const meteoTechStack = [
-    { name: "Terraform" },
+const jobMarketTechStack = [
     { name: "Python" },
-    { name: "GCP" },
-    { name: "BigQuery" },
-    { name: "dbt" },
-    { name: "Looker Studio" },
+    { name: "pandas" },
+    { name: "SQLite" },
+    { name: "Medaillon" },
+    { name: "ETL" },
+    { name: "Tableau" },
 ];
 
-const hrTechStack = [
-    { name: "GCP" },
-    { name: "DataBricks" },
-    { name: "ETL" },
-    { name: "Medaillon" },
-    { name: "Tableau" },
-    { name: "Python" },
+const shopWiseTechStack = [
+    { name: "Angular" },
+    { name: "Flask" },
+    { name: "PostgreSQL" },
+    { name: "Docker" },
+    { name: "Firebase" },
+    { name: "Chart.js" },
 ];
 
 export {
@@ -235,6 +235,6 @@ export {
     techStackImgs,
     navLinks,
     projectTechStack,
-    meteoTechStack,
-    hrTechStack,
+    jobMarketTechStack,
+    shopWiseTechStack,
 };

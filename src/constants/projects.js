@@ -59,28 +59,29 @@ A Gemini AI layer synthesizes these signals to generate investment recommendatio
     link: "https://stockz.vercel.app/",
   },
   {
-    title: "HR Dashboard",
-    tech: ["GCP", "DataBricks", "ETL", "Medaillon", "Tableau", "Python"],
-    description: "A comprehensive dashboard for HR data analysis and visualization.",
-    image: "/images/HR_Dashboard.png",
-    link: "#",
+    title: "ShopWise",
+    tech: ["Angular", "Flask", "PostgreSQL", "Docker", "Firebase", "Chart.js"],
+    description: `ShopWise is a multi-retailer price comparison platform that simultaneously searches several e-commerce sites (Amazon, Glotelho, E.Leclerc, Auchan, Materiel.net), normalizes the results, and displays them side-by-side.
+
+- Frontend: Angular 19 with PrimeNG components, RxJS, and Chart.js for price-history visualization.
+- Backend: A layered Flask API (routes, services, repositories, scrapers) using curl_cffi and BeautifulSoup for scraping, with rate limiting via Flask-Limiter.
+- Data: PostgreSQL in production (SQLite for development), with APScheduler running periodic price checks that trigger email/in-app alerts when a monitored product drops in price.
+- Auth & Deployment: Firebase authentication, Docker containers, deployed via Render with GitHub Actions CI/CD.`,
+    image: "/images/ShopWise.png",
+    link: "https://shopwise-client.onrender.com/",
   },
   {
-    title: "Meteo Dashboard",
-    tech: ["Terraform", "Python", "GCP", "BigQuery", "dbt", "Looker Studio"],
-    description: `I've deployed a "Meteo Analytics" Data platform, ingesting, transforming, and visualizing 14 years of weather history (2010-2024) for 40 major French cities. This fully automated, serverless solution was a significant Full Stack Data Engineering challenge, built on modern best practices:
+    title: "Job Market Dashboard",
+    tech: ["Python", "pandas", "SQLite", "Medaillon", "ETL", "Tableau"],
+    description: `An ETL pipeline collecting job postings from three official French job-market APIs (APEC, France Travail, Adzuna) to analyze the Data/BI job market in France.
 
-🛠 Technical Stack:
-- Infrastructure as Code (IaC): Terraform for provisioning all GCP resources.
-- Ingestion (EL): Python & Google Cloud Functions (Serverless) with Parquet storage on GCS (Data Lake).
-- Data Warehouse: Google BigQuery (external tables on the Data Lake).
-- Transformation (T): dbt (data build tool) for data modeling and quality (Staging & Marts models).
-- Orchestration: Cloud Scheduler for daily updates.
-- Visualization: Looker Studio for the interactive dashboard.
-
-From API management to SQL intricacies and dashboard design, this project offered a fascinating deep dive into the modern Data ecosystem.`,
-    image: "/images/Meteo_Dashboard.png",
-    link: "https://lookerstudio.google.com/reporting/10eb5b17-4356-47c7-8cd1-b2c5fc27cdb2",
+- Extraction: Python & requests against REST/OAuth2 APIs, pulling postings from all three sources.
+- Transformation: A medallion architecture (Bronze → Silver → Gold) built with pandas, deduplicating postings and enriching them with detected skills, job categories, and salary information.
+- Storage: A SQLite data warehouse modeled as a star schema, alongside CSV exports.
+- Visualization: An interactive Tableau dashboard covering 3,097 analyzed postings across 1,095 companies, surfacing in-demand skills, tech stacks, and experience levels.
+- Testing: pytest coverage across the pipeline.`,
+    image: "/images/JobMarket.png",
+    link: "https://public.tableau.com/app/profile/takougang.kuatse.ronic/viz/Projet_Visualisation_17740458603320/Job_Market",
   },
   {
     title: "Coming Soon",

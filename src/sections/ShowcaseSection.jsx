@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react'
-import {projectTechStack, meteoTechStack, hrTechStack} from "../constants/index.js";
+import {projectTechStack, jobMarketTechStack, shopWiseTechStack} from "../constants/index.js";
 import {gsap} from "gsap";
 import {useGSAP} from "@gsap/react";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
@@ -18,16 +18,18 @@ const showcaseProjects = [
         github: "https://lnkd.in/e2b5Rtwr",
     },
     {
-        title: "HR Dashboard",
-        tech: hrTechStack,
-        image: "/images/HR.png",
-        link: "https://public.tableau.com/app/profile/takougang.kuatse.ronic/viz/TableaudeBordRH/HRSummary",
+        title: "ShopWise",
+        tech: shopWiseTechStack,
+        image: "/images/ShopWise.png",
+        link: "https://shopwise-client.onrender.com/",
+        github: "https://github.com/ronicTakouugang/ShopWise",
     },
     {
-        title: "Meteo Dashboard",
-        tech: meteoTechStack,
-        image: "/images/Meteo.png",
-        link: "https://lookerstudio.google.com/reporting/10eb5b17-4356-47c7-8cd1-b2c5fc27cdb2",
+        title: "Job Market Dashboard",
+        tech: jobMarketTechStack,
+        image: "/images/JobMarket.png",
+        link: "https://public.tableau.com/app/profile/takougang.kuatse.ronic/viz/Projet_Visualisation_17740458603320/Job_Market",
+        github: "https://github.com/ronicTakouugang/Job_Scrappers",
     },
 ];
 
