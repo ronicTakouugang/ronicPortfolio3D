@@ -5,8 +5,11 @@ import HomePage from "./sections/HomePage.jsx";
 import AllProjects from "./sections/AllProjects.jsx";
 import LoadingScreen from "./components/LoadingScreen.jsx";
 import Footer from "./components/Footer.jsx";
+import { useSmoothScroll } from "./hooks/useSmoothScroll.js";
 
 const App = () => {
+    useSmoothScroll();
+
     return (
         <>
             <Suspense fallback={null}>

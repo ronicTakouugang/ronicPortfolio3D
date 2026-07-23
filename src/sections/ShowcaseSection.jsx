@@ -2,8 +2,11 @@ import React, {useRef, useState} from 'react'
 import {projectTechStack, meteoTechStack, hrTechStack} from "../constants/index.js";
 import {gsap} from "gsap";
 import {useGSAP} from "@gsap/react";
+import {ScrollTrigger} from "gsap/ScrollTrigger";
 import ProjectComputer from "../components/Models/work/ProjectComputer.jsx";
 import SeeMoreButton from '../components/SeeMoreButton.jsx';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const showcaseProjects = [
     {
@@ -33,8 +36,18 @@ const ShowcaseSection = () => {
     const active = showcaseProjects[activeIndex];
 
     useGSAP(() => {
-        gsap.fromTo(sectionRef.current, {opacity: 0},
-            {opacity: 1, duration: 1.5, ease: "power2.inOut", delay: 0.5})
+        gsap.fromTo(sectionRef.current,
+            {opacity: 0, y: 60},
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 75%",
+                },
+            })
     }, []);
 
     const goTo = (index) => {

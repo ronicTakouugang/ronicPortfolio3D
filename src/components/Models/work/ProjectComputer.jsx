@@ -59,11 +59,13 @@ const Computer = ({ imagePath }) => {
 
 const ProjectComputer = ({ imagePath }) => {
     return (
-        <Canvas camera={{ position: [0, 0.6, 3.4], fov: 30 }} frameloop="demand">
-            <ambientLight intensity={1.3} />
-            <directionalLight position={[3, 4, 5]} intensity={2} />
-            <pointLight position={[-3, 2, 4]} intensity={30} color="#8ab4ff" />
-            <pointLight position={[2, -1, 3]} intensity={20} color="#ffffff" />
+        <Canvas camera={{ position: [0, 0.5, 2.5], fov: 32 }} frameloop="demand">
+            <ambientLight intensity={2.2} />
+            <directionalLight position={[3, 4, 5]} intensity={3.5} />
+            <directionalLight position={[-3, 3, 2]} intensity={1.8} />
+            <pointLight position={[-3, 2, 4]} intensity={35} color="#8ab4ff" />
+            <pointLight position={[2, -1, 3]} intensity={25} color="#ffffff" />
+            <pointLight position={[0, 1.2, 2.2]} intensity={25} color="#ffffff" />
             <OrbitControls
                 enablePan={false}
                 enableZoom={false}

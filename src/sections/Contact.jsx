@@ -1,11 +1,17 @@
 import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../components/Button.jsx";
 
 import TitleHeader from "../components/TitleHeader";
 import ContactExperience from "../components/Models/contact/ContactExperience";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Contact = () => {
+    const sectionRef = useRef(null);
     const formRef = useRef(null);
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
@@ -42,15 +48,29 @@ const Contact = () => {
         }
     };
 
+    useGSAP(() => {
+        gsap.from(".contact-reveal", {
+            y: 60,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 75%",
+            },
+        })
+    }, []);
+
     return (
-        <section id="contact" className="w-full flex-center section-padding">
+        <section id="contact" ref={sectionRef} className="w-full flex-center section-padding">
             <div className="w-full h-full md:px-10 px-5">
                 <TitleHeader
                     title="Get in Touch – Let’s Connect"
                     sub="💬 Have questions or ideas? Let’s talk! 🚀"
                 />
                 <div className="grid-12-cols mt-16">
-                    <div className="xl:col-span-5">
+                    <div className="xl:col-span-5 contact-reveal">
                         <div className="flex-center card-border rounded-xl p-10">
                             <form
                                 ref={formRef}
@@ -104,7 +124,7 @@ const Contact = () => {
                             </form>
                         </div>
                     </div>
-                    <div className="xl:col-span-7 min-h-96">
+                    <div className="xl:col-span-7 min-h-96 contact-reveal">
                         <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
                             <ContactExperience />
                         </div>

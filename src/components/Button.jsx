@@ -1,4 +1,5 @@
 import React from 'react'
+import { getLenis } from '../lib/lenis.js'
 
 const Button = ({ text, containerClass, id, type = "link", onClick }) => {
     const targetId = id || 'counter';
@@ -30,10 +31,18 @@ const Button = ({ text, containerClass, id, type = "link", onClick }) => {
                 href={`#${targetId}`}
                 onClick={(e) =>{
                     e.preventDefault();
+                    // Stop the click from also reaching Lenis' own anchor listener on window,
+                    // which would otherwise start a second, competing scrollTo for the same target.
+                    e.stopPropagation();
 
                     const target = document.getElementById(targetId)
-                    if (target){
-                        const offset = window.innerHeight * 0.15;
+                    if (!target) return;
+
+                    const offset = window.innerHeight * 0.15;
+                    const lenis = getLenis();
+                    if (lenis) {
+                        lenis.scrollTo(target, { offset: -offset, duration: 1.2 });
+                    } else {
                         const top = target.getBoundingClientRect().top + window.scrollY - offset;
                         window.scrollTo({ top, behavior: 'smooth' });
                     }
