@@ -6,7 +6,7 @@ import * as THREE from 'three'
 // The desk model's own geometry isn't centered at the scene origin (its true
 // bounding-box center, computed from the glTF accessor bounds, sits here) —
 // point the camera/controls at this instead of [0,0,0] or they aim at empty space.
-const MODEL_CENTER = [-0.126, -0.411, -1.887]
+const MODEL_CENTER = [-0.112, -0.447, -1.81]
 
 const setSrgb = (tex) => {
     tex.colorSpace = THREE.SRGBColorSpace
@@ -29,7 +29,7 @@ const Computer = ({ imagePath }) => {
             {/* Matches the exported "Sketchfab_model" root transform; every child node below is otherwise at identity */}
             <group
                 position={[-17.296865463256836, -14.286227226257324, -91.37220001220703]}
-                quaternion={[-0.5263827892541296, 0.08532543109848734, 0.13536061836983165, 0.8350558261682607]}
+                rotation={[-1.1248836862495875, 0, 0]}
             >
                 <mesh geometry={nodes.GeometryNode_11_0.geometry} material={materials.Material} />
                 <mesh geometry={nodes.GeometryNode_11_1.geometry} material={materials.Material} />
@@ -65,7 +65,7 @@ const Computer = ({ imagePath }) => {
 const ProjectComputer = ({ imagePath }) => {
     return (
         <Canvas
-            camera={{ position: [-0.05, 0.12, 0.66], fov: 32 }}
+            camera={{ position: [-0.05, 0.02, 0.44], fov: 32 }}
             gl={{ toneMappingExposure: 1.5 }}
             frameloop="demand"
         >

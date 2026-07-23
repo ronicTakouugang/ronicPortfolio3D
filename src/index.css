@@ -22,6 +22,12 @@ section {
     width: 100dvw;
 }
 
+/* Keeps anchor/nav-triggered scrolling (native and Lenis, which reads this
+   property) from landing a section's title right under the fixed navbar. */
+#hero, #work, #experience, #skills, #contact {
+    scroll-margin-top: 100px;
+}
+
 @theme {
     --font-sans: "Mona Sans", sans-serif;
     --color-white-50: #d9ecff;
@@ -187,7 +193,7 @@ section {
     }
 
     .app-showcase {
-        @apply w-full mt-10 px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
+        @apply w-full mt-20 md:mt-40 px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
 
         .showcaselayout {
             @apply flex xl:flex-row flex-col gap-10 justify-between;

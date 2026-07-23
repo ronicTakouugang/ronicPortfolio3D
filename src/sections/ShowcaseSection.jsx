@@ -5,6 +5,7 @@ import {useGSAP} from "@gsap/react";
 import {ScrollTrigger} from "gsap/ScrollTrigger";
 import ProjectComputer from "../components/Models/work/ProjectComputer.jsx";
 import SeeMoreButton from '../components/SeeMoreButton.jsx';
+import TitleHeader from "../components/TitleHeader.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,7 +58,9 @@ const ShowcaseSection = () => {
     return (
         <section id="work" ref={sectionRef} className="app-showcase">
             <div className="w-full max-w-4xl mx-auto px-5">
-                <div className="flex items-center justify-center gap-3 md:gap-8">
+                <TitleHeader title="My Work" sub="🛠️ A Selection of My Projects" />
+
+                <div className="flex items-center justify-center gap-3 md:gap-8 mt-10">
                     <button
                         onClick={() => goTo(activeIndex - 1)}
                         aria-label="Previous project"
