@@ -3,6 +3,11 @@ import { Canvas, useThree } from '@react-three/fiber'
 import { OrbitControls, useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 
+// The desk model's own geometry isn't centered at the scene origin (its true
+// bounding-box center, computed from the glTF accessor bounds, sits here) —
+// point the camera/controls at this instead of [0,0,0] or they aim at empty space.
+const MODEL_CENTER = [-0.126, -0.411, -1.887]
+
 const setSrgb = (tex) => {
     tex.colorSpace = THREE.SRGBColorSpace
     tex.needsUpdate = true
@@ -59,14 +64,20 @@ const Computer = ({ imagePath }) => {
 
 const ProjectComputer = ({ imagePath }) => {
     return (
-        <Canvas camera={{ position: [0, 0.5, 2.5], fov: 32 }} frameloop="demand">
-            <ambientLight intensity={2.2} />
-            <directionalLight position={[3, 4, 5]} intensity={3.5} />
-            <directionalLight position={[-3, 3, 2]} intensity={1.8} />
-            <pointLight position={[-3, 2, 4]} intensity={35} color="#8ab4ff" />
-            <pointLight position={[2, -1, 3]} intensity={25} color="#ffffff" />
-            <pointLight position={[0, 1.2, 2.2]} intensity={25} color="#ffffff" />
+        <Canvas
+            camera={{ position: [-0.05, 0.12, 0.66], fov: 32 }}
+            gl={{ toneMappingExposure: 1.5 }}
+            frameloop="demand"
+        >
+            <ambientLight intensity={3.2} />
+            <directionalLight position={[3, 4, 5]} intensity={5} />
+            <directionalLight position={[-3, 3, 2]} intensity={3} />
+            <pointLight position={[-3, 2, 4]} intensity={45} color="#8ab4ff" />
+            <pointLight position={[2, -1, 3]} intensity={35} color="#ffffff" />
+            <pointLight position={[0, 1.2, 2.2]} intensity={35} color="#ffffff" />
             <OrbitControls
+                makeDefault
+                target={MODEL_CENTER}
                 enablePan={false}
                 enableZoom={false}
                 maxPolarAngle={Math.PI / 2.1}
