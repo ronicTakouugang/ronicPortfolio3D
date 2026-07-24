@@ -1,7 +1,9 @@
-import { Suspense, useEffect } from 'react'
-import { Canvas, useThree } from '@react-three/fiber'
+import { Suspense, useEffect, useRef, useState } from 'react'
+import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import { OrbitControls, useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
+import SceneEffects from '../../SceneEffects.jsx'
+import { prefersReducedMotion } from '../../../utils/prefersReducedMotion.js'
 
 // The desk model's own geometry isn't centered at the scene origin (its true
 // bounding-box center, computed from the glTF accessor bounds, sits here) —
@@ -60,33 +62,101 @@ const Computer = ({ imagePath }) => {
     )
 }
 
+// Gently swings the camera between the same azimuth limits a user could drag to,
+// so the desk feels alive while idle instead of sitting dead-still until touched.
+// Drei's own OrbitControls `autoRotate` doesn't work here: it only ever spins one
+// way, and with a ±30° limit it would just drift to one edge and stay pinned —
+// this ping-pongs within the limit instead, and yields to the user immediately.
+const LivingCamera = ({ controlsRef, isInteracting, enabled }) => {
+    useFrame((state) => {
+        if (!enabled || isInteracting || !controlsRef.current) return
+        const amplitude = Math.PI / 6.5
+        const target = Math.sin(state.clock.elapsedTime * 0.3) * amplitude
+        // Ease toward the sine target instead of snapping straight to it — without
+        // this, resuming right after a drag jumps from wherever the user left the
+        // camera to whatever phase the sine wave happens to be at.
+        const current = controlsRef.current.getAzimuthalAngle()
+        controlsRef.current.setAzimuthalAngle(current + (target - current) * 0.04)
+        controlsRef.current.update()
+        state.invalidate()
+    })
+    return null
+}
+
 const ProjectComputer = ({ imagePath }) => {
+    const wrapperRef = useRef(null)
+    const controlsRef = useRef(null)
+    const resumeTimeoutRef = useRef(null)
+    const [isVisible, setIsVisible] = useState(false)
+    const [isInteracting, setIsInteracting] = useState(false)
+    const livingCameraEnabled = useRef(!prefersReducedMotion()).current
+
+    // Same "pause offscreen" pattern as the Hero character: only pay for a
+    // continuous render loop while this canvas is actually on screen.
+    useEffect(() => {
+        const el = wrapperRef.current
+        if (!el) return
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0 }
+        )
+        observer.observe(el)
+        return () => observer.disconnect()
+    }, [])
+
+    // Same debounced-resume pattern as the Hero character's floating animation:
+    // give the user a few quiet seconds after they let go before the camera
+    // takes back over, rather than resuming the instant they release the drag.
+    const handleInteractionStart = () => {
+        if (resumeTimeoutRef.current) {
+            clearTimeout(resumeTimeoutRef.current)
+            resumeTimeoutRef.current = null
+        }
+        setIsInteracting(true)
+    }
+    const handleInteractionEnd = () => {
+        if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
+        resumeTimeoutRef.current = setTimeout(() => setIsInteracting(false), 4000)
+    }
+    useEffect(() => () => {
+        if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current)
+    }, [])
+
     return (
-        <Canvas
-            camera={{ position: [-0.39, -0.04, 2.16], fov: 20 }}
-            gl={{ toneMappingExposure: 1.5 }}
-            frameloop="demand"
-        >
-            <ambientLight intensity={3.6} />
-            <directionalLight position={[3, 4, 5]} intensity={5} />
-            <directionalLight position={[-3, 3, 2]} intensity={3} />
-            <pointLight position={[-3, 2, 4]} intensity={45} color="#8ab4ff" />
-            <pointLight position={[2, -1, 3]} intensity={35} color="#ffffff" />
-            <pointLight position={[0, 1.2, 2.2]} intensity={35} color="#ffffff" />
-            <OrbitControls
-                makeDefault
-                target={MODEL_CENTER}
-                enablePan={false}
-                enableZoom={false}
-                maxPolarAngle={1.536}
-                minPolarAngle={1.309}
-                maxAzimuthAngle={Math.PI / 6}
-                minAzimuthAngle={-Math.PI / 6}
-            />
-            <Suspense fallback={null}>
-                <Computer imagePath={imagePath} />
-            </Suspense>
-        </Canvas>
+        <div ref={wrapperRef} className="w-full h-full">
+            <Canvas
+                camera={{ position: [-0.39, -0.04, 2.16], fov: 20 }}
+                gl={{ toneMappingExposure: 1.5 }}
+                frameloop={livingCameraEnabled && isVisible ? 'always' : 'demand'}
+            >
+                <ambientLight intensity={3.6} />
+                <directionalLight position={[3, 4, 5]} intensity={5} />
+                <directionalLight position={[-3, 3, 2]} intensity={3} />
+                <pointLight position={[-3, 2, 4]} intensity={45} color="#8ab4ff" />
+                <pointLight position={[2, -1, 3]} intensity={35} color="#ffffff" />
+                <pointLight position={[0, 1.2, 2.2]} intensity={35} color="#ffffff" />
+                <OrbitControls
+                    ref={controlsRef}
+                    makeDefault
+                    target={MODEL_CENTER}
+                    enablePan={false}
+                    enableZoom={false}
+                    maxPolarAngle={1.536}
+                    minPolarAngle={1.309}
+                    maxAzimuthAngle={Math.PI / 6}
+                    minAzimuthAngle={-Math.PI / 6}
+                    onStart={handleInteractionStart}
+                    onEnd={handleInteractionEnd}
+                />
+                <Suspense fallback={null}>
+                    <Computer imagePath={imagePath} />
+                </Suspense>
+                <LivingCamera controlsRef={controlsRef} isInteracting={isInteracting} enabled={livingCameraEnabled && isVisible} />
+                {/* Screenshots have large bright/white areas, so keep the bloom threshold
+                    high — this should only catch the brightest highlights, not the whole screen. */}
+                <SceneEffects bloomIntensity={0.35} vignetteDarkness={0.45} />
+            </Canvas>
+        </div>
     )
 }
 

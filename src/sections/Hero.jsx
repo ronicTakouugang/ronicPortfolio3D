@@ -1,11 +1,16 @@
 import React, { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { words} from "../constants/index.js";
 import Button from "../components/Button.jsx";
 import HeroExperience from "../components/HeroModels/HeroExperience.jsx";
 import { prefersReducedMotion } from "../utils/prefersReducedMotion.js";
+
+gsap.registerPlugin(ScrollTrigger)
+
 const Hero = () => {
+    const sectionRef = useRef();
     const containerRef = useRef();
     const wrapperRef = useRef();
 
@@ -23,6 +28,27 @@ const Hero = () => {
             { y: 50, opacity: 0 },
             { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power2.out" }
         )
+
+        // Ties directly to scroll position (not autoplaying), so this runs
+        // regardless of prefers-reduced-motion: the hero text dissolves and
+        // lifts away as you scroll past it, instead of just vanishing when
+        // Work's own reveal happens to fire — the two sections hand off to
+        // each other rather than acting independently.
+        gsap.to(containerRef.current, {
+            opacity: 0,
+            y: -60,
+            ease: "none",
+            scrollTrigger: {
+                // A ref, not the "#hero" string: useGSAP's scope only resolves
+                // string selectors against containerRef's descendants, and #hero
+                // is containerRef's ancestor — the string form silently failed
+                // to find it and fell back to a much smaller implicit trigger.
+                trigger: sectionRef.current,
+                start: "top top",
+                end: "bottom top",
+                scrub: true,
+            },
+        })
 
         // The word cycler and flag wiggle repeat forever, which is exactly the kind
         // of motion prefers-reduced-motion asks to skip — leave the first word and
@@ -54,7 +80,7 @@ const Hero = () => {
     }, { scope: containerRef });
 
     return (
-        <section id="hero" className="relative h-screen w-full flex flex-col">
+        <section id="hero" ref={sectionRef} className="relative h-screen w-full flex flex-col">
             <div className="absolute top-0 left-0 z-0 w-full h-full">
                 <img src="/images/bg.png" alt="background" className="w-full h-full object-cover opacity-50"/>
             </div>

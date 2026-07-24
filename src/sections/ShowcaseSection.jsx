@@ -43,16 +43,20 @@ const ShowcaseSection = () => {
     const active = showcaseProjects[activeIndex];
 
     useGSAP(() => {
+        // Scrubbed (tied directly to scroll position, not a one-shot trigger) so
+        // this section visibly arrives as Hero's own content scrolls away above —
+        // the two read as one continuous handoff instead of two independent reveals.
         gsap.fromTo(sectionRef.current,
             {opacity: 0, y: 60},
             {
                 opacity: 1,
                 y: 0,
-                duration: 1.2,
-                ease: "power3.out",
+                ease: "none",
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 75%",
+                    start: "top bottom",
+                    end: "top 50%",
+                    scrub: true,
                 },
             })
     }, []);

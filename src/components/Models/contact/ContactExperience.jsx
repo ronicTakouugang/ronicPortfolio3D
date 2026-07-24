@@ -3,6 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 
 import { Computer } from "./Computer";
+import SceneEffects from "../../SceneEffects.jsx";
 
 const ContactExperience = () => {
     return (
@@ -40,6 +41,7 @@ const ContactExperience = () => {
                     <Computer />
                 </group>
             </Suspense>
+            <SceneEffects bloomIntensity={0.35} vignetteDarkness={0.4} />
         </Canvas>
     );
 };

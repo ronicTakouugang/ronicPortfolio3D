@@ -5,6 +5,7 @@ import {useMediaQuery} from "react-responsive";
 import {BusinessMan} from "./BusinessMan.jsx";
 import DashboardScreen from "./DashboardScreen.jsx";
 import { prefersReducedMotion } from "../../utils/prefersReducedMotion.js";
+import SceneEffects from "../SceneEffects.jsx";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
@@ -109,6 +110,7 @@ const HeroExperience = () => {
                         <DataAnalyst/>
                     </FloatingGroup>
                 </Suspense>
+                <SceneEffects bloomIntensity={0.3} vignetteDarkness={0.35} />
             </Canvas>
         </div>
     )
