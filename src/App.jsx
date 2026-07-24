@@ -1,11 +1,13 @@
-import React, { Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import NavBar from "./components/NavBar.jsx";
 import HomePage from "./sections/HomePage.jsx";
-import AllProjects from "./sections/AllProjects.jsx";
 import LoadingScreen from "./components/LoadingScreen.jsx";
 import Footer from "./components/Footer.jsx";
 import { useSmoothScroll } from "./hooks/useSmoothScroll.js";
+
+// Only needed behind the "See more" click, so keep it out of the initial bundle.
+const AllProjects = lazy(() => import("./sections/AllProjects.jsx"));
 
 const App = () => {
     useSmoothScroll();
