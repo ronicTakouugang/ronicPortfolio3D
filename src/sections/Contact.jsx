@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -14,6 +14,7 @@ const Contact = () => {
     const sectionRef = useRef(null);
     const formRef = useRef(null);
     const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState(null); // 'success' | 'error' | null
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -28,6 +29,7 @@ const Contact = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true); // Show loading state
+        setStatus(null);
 
         try {
             await emailjs.sendForm(
@@ -39,14 +41,21 @@ const Contact = () => {
 
             // Reset form and stop loading
             setForm({ name: "", email: "", message: "" });
-            alert("Message Sent!");
+            setStatus("success");
         } catch (error) {
             console.error("EmailJS Error:", error);
-            alert("Message failed to send. Please try again.");
+            setStatus("error");
         } finally {
             setLoading(false); // Always stop loading, even on error
         }
     };
+
+    // Auto-dismiss the inline status message after a few seconds.
+    useEffect(() => {
+        if (!status) return;
+        const timeout = setTimeout(() => setStatus(null), 5000);
+        return () => clearTimeout(timeout);
+    }, [status]);
 
     useGSAP(() => {
         gsap.from(".contact-reveal", {
@@ -121,6 +130,17 @@ const Contact = () => {
                                     text={loading ? "Sending..." : "Send Message"}
                                     containerClass="w-full mt-7"
                                 />
+
+                                {status === "success" && (
+                                    <p role="status" className="text-center text-sm text-green-400">
+                                        Message sent! I&apos;ll get back to you soon.
+                                    </p>
+                                )}
+                                {status === "error" && (
+                                    <p role="alert" className="text-center text-sm text-red-400">
+                                        Something went wrong. Please try again.
+                                    </p>
+                                )}
                             </form>
                         </div>
                     </div>

@@ -16,6 +16,7 @@ const showcaseProjects = [
         image: "/images/Stockz.jpg",
         link: "https://stockz.vercel.app/",
         github: "https://lnkd.in/e2b5Rtwr",
+        linkType: "app",
     },
     {
         title: "Multi-retailer price comparison platform with live price tracking and drop alerts.",
@@ -23,6 +24,7 @@ const showcaseProjects = [
         image: "/images/ShopWise.png",
         link: "https://shopwise-client.onrender.com/",
         github: "https://github.com/ronicTakouugang/ShopWise",
+        linkType: "app",
     },
     {
         title: "ETL pipeline and Tableau dashboard analyzing France's Data & BI job market.",
@@ -30,6 +32,7 @@ const showcaseProjects = [
         image: "/images/JobMarket.png",
         link: "https://public.tableau.com/app/profile/takougang.kuatse.ronic/viz/Projet_Visualisation_17740458603320/Job_Market",
         github: "https://github.com/ronicTakouugang/Job_Scrappers",
+        linkType: "dashboard",
     },
 ];
 
@@ -57,6 +60,28 @@ const ShowcaseSection = () => {
         setActiveIndex((index + showcaseProjects.length) % showcaseProjects.length);
     };
 
+    // A quick, mostly-horizontal drag switches projects; slower/short drags are
+    // left alone so they still orbit the 3D model (OrbitControls) as expected.
+    const swipeStart = useRef(null);
+
+    const handlePointerDown = (e) => {
+        swipeStart.current = { x: e.clientX, y: e.clientY, time: Date.now() };
+    };
+
+    const handlePointerUp = (e) => {
+        const start = swipeStart.current;
+        swipeStart.current = null;
+        if (!start) return;
+
+        const dx = e.clientX - start.x;
+        const dy = e.clientY - start.y;
+        const dt = Date.now() - start.time;
+
+        if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 600) {
+            goTo(activeIndex + (dx < 0 ? 1 : -1));
+        }
+    };
+
     return (
         <section id="work" ref={sectionRef} className="app-showcase">
             <div className="w-full max-w-4xl mx-auto px-5">
@@ -71,7 +96,11 @@ const ShowcaseSection = () => {
                         <img src="/images/arrow-down.svg" alt="previous" className="size-4 invert rotate-90" />
                     </button>
 
-                    <div className="w-full h-[320px] md:h-[440px] cursor-grab active:cursor-grabbing">
+                    <div
+                        className="w-full h-[320px] md:h-[440px] cursor-grab active:cursor-grabbing"
+                        onPointerDown={handlePointerDown}
+                        onPointerUp={handlePointerUp}
+                    >
                         <ProjectComputer imagePath={active.image} />
                     </div>
 
@@ -103,12 +132,23 @@ const ShowcaseSection = () => {
                             rel="noreferrer"
                             className="flex items-center gap-2 text-white hover:text-white-50 transition-colors"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                            </svg>
-                            <p className="font-semibold text-sm">View Project</p>
+                            {active.linkType === "dashboard" ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M3 3v18h18" />
+                                    <path d="M18 17V9" />
+                                    <path d="M13 17V5" />
+                                    <path d="M8 17v-3" />
+                                </svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            )}
+                            <p className="font-semibold text-sm">
+                                {active.linkType === "dashboard" ? "View Dashboard" : "View Project"}
+                            </p>
                         </a>
 
                         {active.github && (

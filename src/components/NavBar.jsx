@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 const NavBar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [activeSection, setActiveSection] = useState(null);
     const location = useLocation();
     const isHomePage = location.pathname === '/';
 
@@ -24,7 +25,33 @@ const NavBar = () => {
 
         return () => window.removeEventListener("scroll", handleScroll)
     }, [isHomePage]);
-    
+
+    // Highlights whichever nav link matches the section currently crossing the
+    // middle of the viewport, so the navbar tracks where you actually are on scroll.
+    useEffect(() => {
+        if (!isHomePage) return;
+
+        const sectionIds = navLinks.map(({ link }) => link.replace('#', ''));
+        const sections = sectionIds
+            .map((id) => document.getElementById(id))
+            .filter(Boolean);
+        if (sections.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
+        );
+
+        sections.forEach((section) => observer.observe(section));
+        return () => observer.disconnect();
+    }, [isHomePage]);
+
     const getLink = (link) => isHomePage ? link : `/${link}`;
 
     return (
@@ -35,14 +62,19 @@ const NavBar = () => {
                 </a>
                 <nav className="desktop lg:flex hidden">
                     <ul>
-                        {navLinks.map(({ link, name}) =>(
-                            <li key={name} className="group">
-                                <a href={getLink(link)}>
-                                    <span>{name}</span>
-                                    <span className="underline"/>
-                                </a>
-                            </li>
-                        ))}
+                        {navLinks.map(({ link, name}) => {
+                            const isActive = activeSection === link.replace('#', '');
+                            return (
+                                <li key={name} className="group">
+                                    <a href={getLink(link)}>
+                                        <span className={isActive ? 'text-white' : ''}>{name}</span>
+                                        {/* .underline's nested selector outweighs a plain "w-full" utility class
+                                            in specificity, so the active state needs an inline style to win. */}
+                                        <span className="underline" style={isActive ? { width: '100%' } : undefined} />
+                                    </a>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </nav>
                 <div className="flex items-center gap-4">
