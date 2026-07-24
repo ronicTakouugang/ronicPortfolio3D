@@ -59,6 +59,30 @@ const ShowcaseSection = () => {
                     scrub: true,
                 },
             })
+
+        // Same handoff on the way out: fades as Experience starts arriving below,
+        // concentrated near the actual boundary rather than over this whole
+        // (fairly tall) section, so it doesn't dim while still being read.
+        //
+        // Explicit fromTo, not a bare to(): the entrance tween above is a fromTo
+        // with immediateRender (the GSAP default), which synchronously snaps
+        // opacity/y to their "from" values the instant it's created — before any
+        // scrolling happens. A plain to() here would then capture THAT as its own
+        // implicit starting point instead of the section's real settled state,
+        // making it fade from 0 to 0 (invisible for its entire scrub range).
+        gsap.fromTo(sectionRef.current,
+            { opacity: 1, y: 0 },
+            {
+                opacity: 0,
+                y: -60,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "bottom bottom",
+                    end: "bottom top",
+                    scrub: true,
+                },
+            })
     }, []);
 
     const goTo = (index) => {

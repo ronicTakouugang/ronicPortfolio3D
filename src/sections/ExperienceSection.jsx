@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import TitleHeader from "../components/TitleHeader.jsx"
 import { expCards } from "../constants/index.js"
 import GlowCard from "../components/GlowCard.jsx"
@@ -10,7 +10,24 @@ import { FaBriefcase, FaRegCalendarAlt } from "react-icons/fa"
 gsap.registerPlugin(ScrollTrigger)
 
 const ExperienceSection = () => {
+    const sectionRef = useRef(null)
+
     useGSAP(() => {
+        // Fades this section out as Skills arrives below — same handoff pattern
+        // as Hero→Work and Work→Experience, concentrated near the boundary so
+        // it doesn't dim the timeline while it's still being read.
+        gsap.to(sectionRef.current, {
+            opacity: 0,
+            y: -60,
+            ease: "none",
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "bottom bottom",
+                end: "bottom top",
+                scrub: true,
+            },
+        })
+
         // Animation pour les cartes timeline
         gsap.utils.toArray(".timeline-card").forEach((card) => {
             gsap.from(card, {
@@ -58,7 +75,7 @@ const ExperienceSection = () => {
     }, [])
 
     return (
-        <section id='experience' className="w-full md:mt-40 mt-20 section-padding xl:px-0">
+        <section id='experience' ref={sectionRef} className="w-full md:mt-40 mt-20 section-padding xl:px-0">
             <div className="w-full h-full md:px-20 px-5">
                 <TitleHeader title="Professional Work Experience" sub="My career Overview" icon={FaBriefcase} />
                 <div className="mt-32 relative">

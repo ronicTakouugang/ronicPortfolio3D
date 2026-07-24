@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,8 +12,24 @@ import { FaHandshake } from "react-icons/fa";
 gsap.registerPlugin(ScrollTrigger);
 
 const TechStack = () => {
+    const sectionRef = useRef(null);
+
     // Animate the tech cards in the skills section
     useGSAP(() => {
+        // Fades this section out as Contact arrives below — same handoff
+        // pattern used at every other section boundary on the page.
+        gsap.to(sectionRef.current, {
+            opacity: 0,
+            y: -60,
+            ease: "none",
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "bottom bottom",
+                end: "bottom top",
+                scrub: true,
+            },
+        });
+
         // This animation is triggered when the user scrolls to the #skills wrapper
         // The animation starts when the top of the wrapper is at the center of the screen
         // The animation is staggered, meaning each card will animate in sequence
@@ -40,7 +57,7 @@ const TechStack = () => {
     });
 
     return (
-        <div id="skills" className="flex-center section-padding">
+        <div id="skills" ref={sectionRef} className="flex-center section-padding">
             <div className="w-full h-full md:px-10 px-5">
                 <TitleHeader
                     title="How I Can Contribute & My Key Skills"
