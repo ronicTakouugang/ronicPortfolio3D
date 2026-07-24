@@ -18,14 +18,14 @@ const showcaseProjects = [
         github: "https://lnkd.in/e2b5Rtwr",
     },
     {
-        title: "ShopWise",
+        title: "Multi-retailer price comparison platform with live price tracking and drop alerts.",
         tech: shopWiseTechStack,
         image: "/images/ShopWise.png",
         link: "https://shopwise-client.onrender.com/",
         github: "https://github.com/ronicTakouugang/ShopWise",
     },
     {
-        title: "Job Market Dashboard",
+        title: "ETL pipeline and Tableau dashboard analyzing France's Data & BI job market.",
         tech: jobMarketTechStack,
         image: "/images/JobMarket.png",
         link: "https://public.tableau.com/app/profile/takougang.kuatse.ronic/viz/Projet_Visualisation_17740458603320/Job_Market",
