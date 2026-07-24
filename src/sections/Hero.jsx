@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react'
 import { words} from "../constants/index.js";
 import Button from "../components/Button.jsx";
 import HeroExperience from "../components/HeroModels/HeroExperience.jsx";
+import { prefersReducedMotion } from "../utils/prefersReducedMotion.js";
 const Hero = () => {
     const containerRef = useRef();
     const wrapperRef = useRef();
@@ -13,7 +14,7 @@ const Hero = () => {
         if (!wrapper) return;
         const items = wrapper.children;
         if (items.length === 0) return;
-        
+
         const totalItems = items.length;
         const itemHeight = items[0].getBoundingClientRect().height;
 
@@ -22,6 +23,11 @@ const Hero = () => {
             { y: 50, opacity: 0 },
             { y: 0, opacity: 1, duration: 1.5, stagger: 0.2, ease: "power2.out" }
         )
+
+        // The word cycler and flag wiggle repeat forever, which is exactly the kind
+        // of motion prefers-reduced-motion asks to skip — leave the first word and
+        // a still flag in place instead of looping them.
+        if (prefersReducedMotion()) return;
 
         // Vertical word animation
         const tl = gsap.timeline({

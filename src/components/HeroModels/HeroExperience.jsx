@@ -4,13 +4,15 @@ import {OrbitControls} from "@react-three/drei";
 import {useMediaQuery} from "react-responsive";
 import {BusinessMan} from "./BusinessMan.jsx";
 import DashboardScreen from "./DashboardScreen.jsx";
+import { prefersReducedMotion } from "../../utils/prefersReducedMotion.js";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
     const baseY = isMobile ? -12.5 : isTablet ? -13 : -14;
+    const reducedMotion = useRef(prefersReducedMotion())
 
     useFrame((state) => {
-        if (groupRef.current && !isInteracting) {
+        if (groupRef.current && !isInteracting && !reducedMotion.current) {
             // Floating effect
             groupRef.current.position.y = baseY + Math.sin(state.clock.elapsedTime) * 0.4;
         }

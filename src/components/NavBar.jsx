@@ -52,6 +52,16 @@ const NavBar = () => {
         return () => observer.disconnect();
     }, [isHomePage]);
 
+    // Lets the mobile menu close with Escape, same as any other dismissible overlay.
+    useEffect(() => {
+        if (!menuOpen) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') setMenuOpen(false);
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [menuOpen]);
+
     const getLink = (link) => isHomePage ? link : `/${link}`;
 
     return (
@@ -93,14 +103,20 @@ const NavBar = () => {
                 </div>
             </div>
             {menuOpen && (
-                <div className="mobile-menu">
+                <div className="mobile-menu" onClick={() => setMenuOpen(false)}>
                     <nav>
                         <ul>
-                            {navLinks.map(({ link, name}) =>(
-                                <li key={name} onClick={() => setMenuOpen(false)}>
-                                    <a href={getLink(link)}>{name}</a>
-                                </li>
-                            ))}
+                            {navLinks.map(({ link, name}) => {
+                                const isActive = activeSection === link.replace('#', '');
+                                return (
+                                    <li key={name}>
+                                        {/* Dim the non-active links instead of the reverse — the base style is
+                                            already bold white, which reads best as the "on" state. Inline style
+                                            because ".mobile-menu nav ul li a" outweighs a plain utility class. */}
+                                        <a href={getLink(link)} style={!isActive ? { color: '#839cb5' } : undefined}>{name}</a>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </nav>
                 </div>

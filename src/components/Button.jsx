@@ -1,5 +1,6 @@
 import React from 'react'
 import { getLenis } from '../lib/lenis.js'
+import { prefersReducedMotion } from '../utils/prefersReducedMotion.js'
 
 const Button = ({ text, containerClass, id, type = "link", onClick }) => {
     const targetId = id || 'counter';
@@ -44,7 +45,7 @@ const Button = ({ text, containerClass, id, type = "link", onClick }) => {
                         lenis.scrollTo(target, { offset: -offset, duration: 1.2 });
                     } else {
                         const top = target.getBoundingClientRect().top + window.scrollY - offset;
-                        window.scrollTo({ top, behavior: 'smooth' });
+                        window.scrollTo({ top, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
                     }
                 }}
                 {...commonProps}
