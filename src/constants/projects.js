@@ -55,7 +55,7 @@ Core ML components include:
 - Strategy Backtesting: A Python engine to validate trading models.
 
 A Gemini AI layer synthesizes these signals to generate investment recommendations. The full-stack application is built with a FastAPI backend and a Next.js frontend, deployed on Vercel and Render.`,
-    image: "/images/Stock.png",
+    image: "/images/Stock.jpg",
     link: "https://stockz.vercel.app/",
   },
   {

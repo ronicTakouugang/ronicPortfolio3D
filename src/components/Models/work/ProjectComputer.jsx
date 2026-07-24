@@ -90,7 +90,7 @@ const ProjectComputer = ({ imagePath }) => {
     )
 }
 
-useTexture.preload('/images/Stockz.png')
+useTexture.preload('/images/Stockz.jpg')
 useTexture.preload('/images/ShopWise.png')
 useTexture.preload('/images/JobMarket.png')
 useGLTF.preload('/models/Computer/Computer.gltf')
