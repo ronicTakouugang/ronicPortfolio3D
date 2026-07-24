@@ -15,7 +15,7 @@ const showcaseProjects = [
         tech: projectTechStack,
         image: "/images/Stockz.jpg",
         link: "https://stockz.vercel.app/",
-        github: "https://lnkd.in/e2b5Rtwr",
+        github: "https://github.com/ronicTakouugang/stockz",
         linkType: "app",
     },
     {

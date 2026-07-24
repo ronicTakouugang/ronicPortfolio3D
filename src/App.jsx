@@ -5,6 +5,7 @@ import HomePage from "./sections/HomePage.jsx";
 import NotFound from "./sections/NotFound.jsx";
 import LoadingScreen from "./components/LoadingScreen.jsx";
 import Footer from "./components/Footer.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import { useSmoothScroll } from "./hooks/useSmoothScroll.js";
 
 // Only needed behind the "See more" click, so keep it out of the initial bundle.
@@ -26,6 +27,7 @@ const App = () => {
                     <Footer />
                 </main>
             </Suspense>
+            <ScrollToTop />
             <LoadingScreen />
         </>
     )
