@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import TitleHeader from "../components/TitleHeader";
 import TechIconCardExperience from "../components/Models/TechLogos/TechIcon.jsx";
 import { techStackIcons } from "../constants";
+import { FaHandshake } from "react-icons/fa";
 // import { techStackImgs } from "../constants";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -43,7 +44,8 @@ const TechStack = () => {
             <div className="w-full h-full md:px-10 px-5">
                 <TitleHeader
                     title="How I Can Contribute & My Key Skills"
-                    sub="🤝 What I Bring to the Table"
+                    sub="What I Bring to the Table"
+                    icon={FaHandshake}
                 />
                 <div className="tech-grid">
                     {/* Loop through the techStackIcons array and create a component for each item.

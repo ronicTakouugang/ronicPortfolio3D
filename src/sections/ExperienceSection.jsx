@@ -5,6 +5,7 @@ import GlowCard from "../components/GlowCard.jsx"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { FaBriefcase, FaRegCalendarAlt } from "react-icons/fa"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -59,7 +60,7 @@ const ExperienceSection = () => {
     return (
         <section id='experience' className="w-full md:mt-40 mt-20 section-padding xl:px-0">
             <div className="w-full h-full md:px-20 px-5">
-                <TitleHeader title="Professional Work Experience" sub="💼 My career Overview" />
+                <TitleHeader title="Professional Work Experience" sub="My career Overview" icon={FaBriefcase} />
                 <div className="mt-32 relative">
                     <div className="relative z-50 xl:space-y-32 space-y-10">
                         {expCards.map((card, index) => (
@@ -88,8 +89,8 @@ const ExperienceSection = () => {
                                             </div>
                                             <div>
                                                 <h1 className="font-semibold text-3xl">{card.title}</h1>
-                                                <p className="my-5 text-white-50">
-                                                    🗓 {card.date}
+                                                <p className="my-5 text-white-50 flex items-center gap-2">
+                                                    <FaRegCalendarAlt className="shrink-0" /> {card.date}
                                                 </p>
                                                 <p className="text-[#839cb5] italic">
                                                     Responsibilities

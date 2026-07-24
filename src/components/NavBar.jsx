@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {navLinks} from "../constants/index.js";
 import { useLocation } from 'react-router-dom';
+import { getLenis } from '../lib/lenis.js';
 
 const NavBar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -62,10 +63,35 @@ const NavBar = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [menuOpen]);
 
+    // Stops the page behind the full-screen mobile menu from scrolling while it's
+    // open. Lenis intercepts wheel/touch input itself and ignores CSS overflow
+    // entirely, so it needs its own stop()/start() — the overflow toggle on
+    // <html> (document.scrollingElement here, not <body>) is the fallback for
+    // keyboard scrolling and for reduced-motion visitors, who never get a Lenis
+    // instance at all.
+    useEffect(() => {
+        if (!menuOpen) return;
+        const root = document.documentElement;
+        const previousOverflow = root.style.overflow;
+        root.style.overflow = 'hidden';
+        const lenis = getLenis();
+        lenis?.stop();
+        return () => {
+            root.style.overflow = previousOverflow;
+            lenis?.start();
+        };
+    }, [menuOpen]);
+
     const getLink = (link) => isHomePage ? link : `/${link}`;
 
     return (
         <header className={`navbar ${scrolled ? "scrolled":"not-scrolled"}`}>
+            <a
+                href="#main-content"
+                className="fixed left-4 top-4 z-[200] -translate-y-24 focus:translate-y-0 bg-white text-black px-4 py-2 rounded-md font-semibold transition-transform"
+            >
+                Skip to content
+            </a>
             <div className="inner">
                 <a className="logo" href={getLink("#hero")}>
                     Data with Ronic
@@ -93,7 +119,13 @@ const NavBar = () => {
                             <span>Contact me !</span>
                         </div>
                     </a>
-                    <button className="lg:hidden z-50" onClick={() => setMenuOpen(!menuOpen)}>
+                    <button
+                        className="lg:hidden z-50"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-menu"
+                        aria-label={menuOpen ? "Close menu" : "Open menu"}
+                    >
                         <div className="hamburger-icon">
                             <span className={`line ${menuOpen ? 'line-1-open' : ''}`}></span>
                             <span className={`line ${menuOpen ? 'line-2-open' : ''}`}></span>
@@ -103,7 +135,7 @@ const NavBar = () => {
                 </div>
             </div>
             {menuOpen && (
-                <div className="mobile-menu" onClick={() => setMenuOpen(false)}>
+                <div id="mobile-menu" className="mobile-menu" onClick={() => setMenuOpen(false)}>
                     <nav>
                         <ul>
                             {navLinks.map(({ link, name}) => {

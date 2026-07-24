@@ -7,6 +7,7 @@ import Button from "../components/Button.jsx";
 
 import TitleHeader from "../components/TitleHeader";
 import ContactExperience from "../components/Models/contact/ContactExperience";
+import { FaRegCommentDots } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -76,7 +77,8 @@ const Contact = () => {
             <div className="w-full h-full md:px-10 px-5">
                 <TitleHeader
                     title="Get in Touch – Let’s Connect"
-                    sub="💬 Have questions or ideas? Let’s talk! 🚀"
+                    sub="Have questions or ideas? Let’s talk!"
+                    icon={FaRegCommentDots}
                 />
                 <div className="grid-12-cols mt-16">
                     <div className="xl:col-span-5 contact-reveal">

@@ -19,11 +19,13 @@ const App = () => {
             <Suspense fallback={null}>
                 <main className="max-w-7xl mx-auto">
                     <NavBar/>
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/all-projects" element={<AllProjects />} />
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
+                    <div id="main-content" tabIndex={-1}>
+                        <Routes>
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/all-projects" element={<AllProjects />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </div>
                     <Footer />
                 </main>
             </Suspense>
