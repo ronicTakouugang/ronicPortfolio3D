@@ -28,15 +28,6 @@ section {
     scroll-margin-top: 100px;
 }
 
-/* The logo marquee loops forever via a CSS keyframe (the word-slider and hero
-   flag wiggle are gated separately, in JS) — stop it outright for users who've
-   asked their OS for less motion. */
-@media (prefers-reduced-motion: reduce) {
-    .marquee-box {
-        animation: none;
-    }
-}
-
 /* Custom cursor: only active on fine-pointer devices (see CustomCursor.jsx),
    which sets this class on <body>. Text fields keep the native caret cursor —
    a generic dot there would make it harder to see where you're about to type. */
@@ -100,9 +91,6 @@ body.custom-cursor-active textarea {
     .flex-center {
         @apply flex justify-center items-center;
     }
-    .flex-col-center {
-        @apply flex flex-col justify-center items-center;
-    }
 }
 
 @layer components {
@@ -118,37 +106,12 @@ body.custom-cursor-active textarea {
         @apply px-5 md:px-10 md:mt-40 mt-20;
     }
 
-    .mt-responsive {
-        @apply xl:mt-20 md:mt-0 mt-40;
-    }
-
-    /* General Grids */
-    .grid-base {
-        @apply grid grid-cols-1;
-    }
-
-    .grid-2-cols {
-        @apply grid grid-cols-1 md:grid-cols-2 gap-6;
-    }
-
     .grid-3-cols {
         @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
     }
 
-    .grid-3-cols-md-tight {
-        @apply grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0;
-    }
-
-    .grid-4-cols {
-        @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-7;
-    }
-
     .grid-12-cols {
         @apply grid grid-cols-1 xl:grid-cols-12 gap-10;
-    }
-
-    .hero-layout {
-        @apply relative z-10 xl:mt-20 mt-32 md:h-dvh h-[80vh] flex xl:items-center items-start justify-center;
     }
 
     .hero-text {
@@ -252,50 +215,6 @@ body.custom-cursor-active textarea {
 
     .app-showcase {
         @apply w-full px-5 md:px-20 py-10 md:py-20 flex items-center justify-center;
-
-        .showcaselayout {
-            @apply flex xl:flex-row flex-col gap-10 justify-between;
-        }
-
-        .first-project-wrapper {
-            @apply h-full flex flex-col justify-between xl:w-[60%];
-
-            .image-wrapper {
-                @apply xl:h-[35vh] md:h-[30vh] h-60 relative;
-
-                img {
-                    @apply w-full h-full object-cover rounded-xl absolute inset-0;
-                }
-            }
-
-            .text-content {
-                @apply space-y-4 mt-4;
-
-                .badges {
-                    @apply flex gap-2 mb-3;
-                }
-
-                h2 {
-                    @apply text-lg md:text-xl lg:text-2xl font-bold;
-                }
-            }
-        }
-
-        .project-list-wrapper {
-            @apply flex md:flex-row flex-col xl:flex-col gap-8 xl:w-[40%] xl:-mt-20;
-
-            .image-wrapper {
-                @apply xl:h-[18vh] md:h-32 lg:h-40 h-36 relative rounded-xl xl:px-5 2xl:px-12 py-0;
-            }
-
-            img {
-                @apply w-full h-full object-contain rounded-xl;
-            }
-
-            h2 {
-                @apply text-sm md:text-base lg:text-lg font-semibold mt-3;
-            }
-        }
     }
 
     .cta-wrapper {
@@ -356,11 +275,7 @@ body.custom-cursor-active textarea {
         @apply border border-black-50 bg-black-100;
     }
 
-    .marquee-item {
-
-        @apply md:w-40 w-32;
-
-    }    .timeline-wrapper {
+    .timeline-wrapper {
         @apply absolute top-0 xl:left-[34vw] md:left-6 left-3 h-full flex justify-center;
     }
 
@@ -374,10 +289,6 @@ body.custom-cursor-active textarea {
 
     .exp-card-wrapper {
         @apply flex flex-col-reverse xl:flex-row xl:gap-20 gap-10 justify-between;
-    }
-
-    .gradient-edge {
-        @apply w-36 h-full absolute bottom-0 z-20;
     }
 
     .tech-card-animated-bg {
@@ -419,30 +330,6 @@ body.custom-cursor-active textarea {
         }
     }
 
-    .footer {
-        @apply my-10 md:mt-20 mt-10 text-white-50 px-5 md:px-20 xl:px-20 flex items-center justify-center;
-
-        .footer-container {
-            @apply grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
-        }
-
-        p {
-            @apply text-center md:text-start cursor-pointer;
-        }
-
-        .socials {
-            @apply flex items-center justify-center gap-5;
-
-            .icon {
-                @apply border border-black-50 bg-black-100 flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-black-50;
-            }
-
-            img {
-                @apply inline-block;
-            }
-        }
-    }
-
     .footer-container {
         @apply w-full py-10 flex flex-col items-center justify-center bg-black-100 mt-20;
     }
@@ -460,51 +347,6 @@ body.custom-cursor-active textarea {
     }
 }
 
-/* Hero text slider starts */
-.slide {
-    display: inline-flex;
-    flex-direction: column;
-    transition: all cubic-bezier(0.71, 0.03, 0.34, 1);
-}
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    animation: wordSlider 21s infinite cubic-bezier(0.9, 0.01, 0.3, 0.99);
-}
-
-@keyframes wordSlider {
-    0% {
-        transform: translateY(0%);
-    }
-    12.5% {
-        transform: translateY(-12.5%);
-    }
-    25% {
-        transform: translateY(-25%);
-    }
-    37.5% {
-        transform: translateY(-37.5%);
-    }
-    50% {
-        transform: translateY(-50%);
-    }
-    62.5% {
-        transform: translateY(-62.5%);
-    }
-    75% {
-        transform: translateY(-75%);
-    }
-    87.5% {
-        transform: translateY(-87.5%);
-    }
-    100% {
-        transform: translateY(-100%);
-    }
-}
-
-/* Hero Text slider ends */
-
 .gradient-line {
     width: 2px;
     background: linear-gradient(
@@ -516,52 +358,6 @@ body.custom-cursor-active textarea {
             #6d45ce 92.91%
     );
 }
-
-.gradient-edge:nth-of-type(1) {
-    left: 0;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 1) 0%,
-            rgba(255, 255, 255, 0) 100%
-    );
-}
-.gradient-edge:nth-of-type(2) {
-    right: 0;
-    background: linear-gradient(
-            -90deg,
-            rgba(0, 0, 0, 1) 0%,
-            rgba(255, 255, 255, 0) 100%
-    );
-}
-
-/* marquee */
-.marquee {
-    width: 100dvw;
-    overflow: hidden;
-    position: relative;
-}
-.marquee-box {
-    display: flex;
-    align-items: center;
-    width: 200%;
-    height: 100%;
-    position: absolute;
-    overflow: hidden;
-    animation: marquee 60s linear infinite;
-}
-.marquee-item {
-    float: left;
-}
-@keyframes marquee {
-    0% {
-        left: 0;
-    }
-    100% {
-        left: -100%;
-    }
-}
-/* marquee end */
 
 .card {
     --start: 0;

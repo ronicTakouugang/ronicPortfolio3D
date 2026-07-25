@@ -20,30 +20,6 @@ const words = [
     { text: "Models", imgPath: "/images/concepts.svg" },
 ];
 
-const logoIconsList = [
-    {
-        imgPath: "/images/logos/snowflake.png",
-    },
-    {
-        imgPath: "/images/logos/databricks.png",
-    },
-    {
-        imgPath: "/images/logos/python.svg",
-    },
-    {
-        imgPath: "/images/logos/react.png",
-    },
-    {
-        imgPath: "/images/logos/node.png",
-    },
-    {
-        imgPath: "/images/logos/three.png",
-    },
-    {
-        imgPath: "/images/logos/git.svg",
-    },
-];
-
 const abilities = [
     {
         imgPath: "/images/seo.png",
@@ -59,29 +35,6 @@ const abilities = [
         imgPath: "/images/time.png",
         title: "On-Time Delivery",
         desc: "Making sure projects are completed on schedule, with quality & attention to detail.",
-    },
-];
-
-const techStackImgs = [
-    {
-        name: "Data Visualizer",
-        imgPath: "/images/logos/react.png",
-    },
-    {
-        name: "Python Developer",
-        imgPath: "/images/logos/python.svg",
-    },
-    {
-        name: "Data Modeler",
-        imgPath: "/images/logos/node.png",
-    },
-    {
-        name: "BI Developer",
-        imgPath: "/images/logos/three.png",
-    },
-    {
-        name: "Project Manager",
-        imgPath: "/images/logos/git.svg",
     },
 ];
 
@@ -160,44 +113,6 @@ const expCards = [
     },
 ];
 
-const expLogos = [
-    {
-        name: "logo1",
-        imgPath: "/images/logo1.png",
-    },
-    {
-        name: "logo2",
-        imgPath: "/images/logo2.png",
-    },
-    {
-        name: "logo3",
-        imgPath: "/images/logo3.png",
-    },
-];
-
-const socialImgs = [
-    {
-        name: "insta",
-        url: "https://www.instagram.com/",
-        imgPath: "/images/insta.png",
-    },
-    {
-        name: "fb",
-        url: "https://www.facebook.com/",
-        imgPath: "/images/fb.png",
-    },
-    {
-        name: "x",
-        url: "https://www.x.com/",
-        imgPath: "/images/x.png",
-    },
-    {
-        name: "linkedin",
-        url: "https://www.linkedin.com/",
-        imgPath: "/images/linkedin.png",
-    },
-];
-
 const projectTechStack = [
     { name: "Next.js" },
     { name: "FastAPI" },
@@ -227,12 +142,8 @@ const shopWiseTechStack = [
 export {
     words,
     abilities,
-    logoIconsList,
     expCards,
-    expLogos,
-    socialImgs,
     techStackIcons,
-    techStackImgs,
     navLinks,
     projectTechStack,
     jobMarketTechStack,

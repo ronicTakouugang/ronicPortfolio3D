@@ -89,7 +89,10 @@ const ProjectComputer = ({ imagePath }) => {
     const resumeTimeoutRef = useRef(null)
     const [isVisible, setIsVisible] = useState(false)
     const [isInteracting, setIsInteracting] = useState(false)
-    const livingCameraEnabled = useRef(!prefersReducedMotion()).current
+    // Computed once and reused rather than a ref: reading ref.current during
+    // render (as opposed to in an effect/handler) isn't something React can
+    // account for when deciding whether to re-render.
+    const [livingCameraEnabled] = useState(() => !prefersReducedMotion())
 
     // Same "pause offscreen" pattern as the Hero character: only pay for a
     // continuous render loop while this canvas is actually on screen.
