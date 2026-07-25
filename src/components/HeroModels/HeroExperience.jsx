@@ -6,6 +6,7 @@ import {BusinessMan} from "./BusinessMan.jsx";
 import DashboardScreen from "./DashboardScreen.jsx";
 import { prefersReducedMotion } from "../../utils/prefersReducedMotion.js";
 import SceneEffects from "../SceneEffects.jsx";
+import Scene3D from "../Scene3D.jsx";
 
 const FloatingGroup = ({ isMobile, isTablet, isInteracting, children }) => {
     const groupRef = useRef()
@@ -91,27 +92,29 @@ const HeroExperience = () => {
 
     return (
         <div ref={wrapperRef} className="w-full h-full">
-            <Canvas camera={{position : [0, 0, 60], fov:40}} frameloop={isVisible ? 'always' : 'never'}>
-                <ambientLight intensity={1.5} />
-                <directionalLight position={[10, 10, 12 ]} intensity={2.4}/>
-                <pointLight position={[8, 4, 25]} intensity={260} color="#ffffff" />
-                <pointLight position={[-10, 8, 15]} intensity={150} color="#8ab4ff" />
-                <pointLight position={[5, 15, 10]} intensity={120} color="#ffffff" />
-                <OrbitControls
-                    enablePan={false}
-                    enableZoom={false}
-                    maxDistance={60}
-                    minDistance={5}
-                    onStart={handleInteractionStart}
-                    onEnd={handleInteractionEnd}
-                />
-                <Suspense fallback={null}>
-                    <FloatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
-                        <DataAnalyst/>
-                    </FloatingGroup>
-                </Suspense>
-                <SceneEffects bloomIntensity={0.3} vignetteDarkness={0.35} />
-            </Canvas>
+            <Scene3D>
+                <Canvas camera={{position : [0, 0, 60], fov:40}} frameloop={isVisible ? 'always' : 'never'}>
+                    <ambientLight intensity={1.5} />
+                    <directionalLight position={[10, 10, 12 ]} intensity={2.4}/>
+                    <pointLight position={[8, 4, 25]} intensity={260} color="#ffffff" />
+                    <pointLight position={[-10, 8, 15]} intensity={150} color="#8ab4ff" />
+                    <pointLight position={[5, 15, 10]} intensity={120} color="#ffffff" />
+                    <OrbitControls
+                        enablePan={false}
+                        enableZoom={false}
+                        maxDistance={60}
+                        minDistance={5}
+                        onStart={handleInteractionStart}
+                        onEnd={handleInteractionEnd}
+                    />
+                    <Suspense fallback={null}>
+                        <FloatingGroup isMobile={isMobile} isTablet={isTablet} isInteracting={isInteracting}>
+                            <DataAnalyst/>
+                        </FloatingGroup>
+                    </Suspense>
+                    <SceneEffects bloomIntensity={0.3} vignetteDarkness={0.35} />
+                </Canvas>
+            </Scene3D>
         </div>
     )
 }

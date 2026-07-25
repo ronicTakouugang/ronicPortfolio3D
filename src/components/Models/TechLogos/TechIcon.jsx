@@ -2,6 +2,7 @@ import { Float, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import Scene3D from "../../Scene3D.jsx";
 
 const TechIconCardExperience = ({ model }) => {
     const scene = useGLTF(model.modelPath);
@@ -46,23 +47,25 @@ const TechIconCardExperience = ({ model }) => {
 
     return (
         <div ref={wrapperRef} className="w-full h-full">
-            <Canvas frameloop={isVisible ? 'always' : 'never'}>
-                <ambientLight intensity={0.3} />
-                <directionalLight position={[5, 5, 5]} intensity={1} />
-                <spotLight
-                    position={[10, 15, 10]}
-                    angle={0.3}
-                    penumbra={1}
-                    intensity={2}
-                />
-                <Float speed={5.5} rotationIntensity={0.5} floatIntensity={0.9}>
-                    <group scale={model.scale} rotation={model.rotation}>
-                        <primitive object={scene.scene} />
-                    </group>
-                </Float>
+            <Scene3D>
+                <Canvas frameloop={isVisible ? 'always' : 'never'}>
+                    <ambientLight intensity={0.3} />
+                    <directionalLight position={[5, 5, 5]} intensity={1} />
+                    <spotLight
+                        position={[10, 15, 10]}
+                        angle={0.3}
+                        penumbra={1}
+                        intensity={2}
+                    />
+                    <Float speed={5.5} rotationIntensity={0.5} floatIntensity={0.9}>
+                        <group scale={model.scale} rotation={model.rotation}>
+                            <primitive object={scene.scene} />
+                        </group>
+                    </Float>
 
-                <OrbitControls enableZoom={false} />
-            </Canvas>
+                    <OrbitControls enableZoom={false} />
+                </Canvas>
+            </Scene3D>
         </div>
     );
 };

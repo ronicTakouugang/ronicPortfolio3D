@@ -3,6 +3,7 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber'
 import { OrbitControls, useGLTF, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import SceneEffects from '../../SceneEffects.jsx'
+import Scene3D from '../../Scene3D.jsx'
 import { prefersReducedMotion } from '../../../utils/prefersReducedMotion.js'
 
 // The desk model's own geometry isn't centered at the scene origin (its true
@@ -127,38 +128,48 @@ const ProjectComputer = ({ imagePath }) => {
 
     return (
         <div ref={wrapperRef} className="w-full h-full">
-            <Canvas
-                camera={{ position: [-0.39, -0.04, 2.16], fov: 20 }}
-                gl={{ toneMappingExposure: 1.5 }}
-                frameloop={livingCameraEnabled && isVisible ? 'always' : 'demand'}
+            <Scene3D
+                fallback={
+                    <img
+                        src={imagePath}
+                        alt="Project preview"
+                        className="w-full h-full object-contain"
+                    />
+                }
             >
-                <ambientLight intensity={3.6} />
-                <directionalLight position={[3, 4, 5]} intensity={5} />
-                <directionalLight position={[-3, 3, 2]} intensity={3} />
-                <pointLight position={[-3, 2, 4]} intensity={45} color="#8ab4ff" />
-                <pointLight position={[2, -1, 3]} intensity={35} color="#ffffff" />
-                <pointLight position={[0, 1.2, 2.2]} intensity={35} color="#ffffff" />
-                <OrbitControls
-                    ref={controlsRef}
-                    makeDefault
-                    target={MODEL_CENTER}
-                    enablePan={false}
-                    enableZoom={false}
-                    maxPolarAngle={1.536}
-                    minPolarAngle={1.309}
-                    maxAzimuthAngle={Math.PI / 6}
-                    minAzimuthAngle={-Math.PI / 6}
-                    onStart={handleInteractionStart}
-                    onEnd={handleInteractionEnd}
-                />
-                <Suspense fallback={null}>
-                    <Computer imagePath={imagePath} />
-                </Suspense>
-                <LivingCamera controlsRef={controlsRef} isInteracting={isInteracting} enabled={livingCameraEnabled && isVisible} />
-                {/* Screenshots have large bright/white areas, so keep the bloom threshold
-                    high — this should only catch the brightest highlights, not the whole screen. */}
-                <SceneEffects bloomIntensity={0.35} vignetteDarkness={0.45} />
-            </Canvas>
+                <Canvas
+                    camera={{ position: [-0.39, -0.04, 2.16], fov: 20 }}
+                    gl={{ toneMappingExposure: 1.5 }}
+                    frameloop={livingCameraEnabled && isVisible ? 'always' : 'demand'}
+                >
+                    <ambientLight intensity={3.6} />
+                    <directionalLight position={[3, 4, 5]} intensity={5} />
+                    <directionalLight position={[-3, 3, 2]} intensity={3} />
+                    <pointLight position={[-3, 2, 4]} intensity={45} color="#8ab4ff" />
+                    <pointLight position={[2, -1, 3]} intensity={35} color="#ffffff" />
+                    <pointLight position={[0, 1.2, 2.2]} intensity={35} color="#ffffff" />
+                    <OrbitControls
+                        ref={controlsRef}
+                        makeDefault
+                        target={MODEL_CENTER}
+                        enablePan={false}
+                        enableZoom={false}
+                        maxPolarAngle={1.536}
+                        minPolarAngle={1.309}
+                        maxAzimuthAngle={Math.PI / 6}
+                        minAzimuthAngle={-Math.PI / 6}
+                        onStart={handleInteractionStart}
+                        onEnd={handleInteractionEnd}
+                    />
+                    <Suspense fallback={null}>
+                        <Computer imagePath={imagePath} />
+                    </Suspense>
+                    <LivingCamera controlsRef={controlsRef} isInteracting={isInteracting} enabled={livingCameraEnabled && isVisible} />
+                    {/* Screenshots have large bright/white areas, so keep the bloom threshold
+                        high — this should only catch the brightest highlights, not the whole screen. */}
+                    <SceneEffects bloomIntensity={0.35} vignetteDarkness={0.45} />
+                </Canvas>
+            </Scene3D>
         </div>
     )
 }
